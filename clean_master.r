@@ -20,7 +20,7 @@ originals <- lapply(extracts, read.csv)
 
 # Rename the entries in originals for ease of reference
 names(originals) <- tolower(gsub(x = basename(extracts),
-                                 pattern = "^Denver_V(\\w*).*\\.csv",
+                                 pattern = "^\\w*_V(\\w*).*\\.csv",
                                  replace = "\\1")
 )
 
