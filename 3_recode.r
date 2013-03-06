@@ -22,6 +22,13 @@ cleaned$tspot$result[cleaned$tspot$result %in% 5] <- "Test Not Performed"
 cleaned$tspot$result[cleaned$tspot$result %in% 6] <- "Test Not Performed"
 
 
+# Reruns, too
+cleaned$qft$rerun_result[cleaned$qft$rerun_result %in% 1] <- "Positive"
+cleaned$qft$rerun_result[cleaned$qft$rerun_result %in% 2] <- "Negative"
+cleaned$qft$rerun_result[cleaned$qft$rerun_result %in% 3] <- "Indeterminate"
+cleaned$qft$rerun_result[cleaned$qft$rerun_result %in% 2] <- "Failed"
+
+
 
 
 ################################################################################
@@ -58,3 +65,20 @@ with(cleaned$tspot, unique(data.frame(old = nil, new = nil.num)))
 with(cleaned$tspot, unique(data.frame(old = mito, new = mito.num)))
 with(cleaned$tspot, unique(data.frame(old = panel_a, new = panel_a.num)))
 with(cleaned$tspot, unique(data.frame(old = panel_b, new = panel_b.num)))
+
+
+
+# Rerun QFTs
+cleaned$qft$rerun_nil.num <- resultToNumeric(cleaned$qft$rerun_nil)
+cleaned$qft$rerun_tb.num <- resultToNumeric(cleaned$qft$rerun_tb)
+cleaned$qft$rerun_mito.num <- resultToNumeric(cleaned$qft$rerun_mito)
+cleaned$qft$rerun_tbnil.num <- resultToNumeric(cleaned$qft$rerun_tbnil)
+cleaned$qft$rerun_mitnil.num <- resultToNumeric(cleaned$qft$rerun_mitnil)
+
+with(cleaned$qft, unique(data.frame(old = rerun_nil, new = rerun_nil.num)))
+with(cleaned$qft, unique(data.frame(old = rerun_tb, new = rerun_tb.num)))
+with(cleaned$qft, unique(data.frame(old = rerun_mito, new = rerun_mito.num)))
+with(cleaned$qft, unique(data.frame(old = rerun_tbnil, new = rerun_tbnil.num)))
+with(cleaned$qft, unique(data.frame(old = rerun_mitnil, 
+                                    new = rerun_mitnil.num)))
+
