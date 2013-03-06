@@ -1,32 +1,3 @@
-# This script coordinates the execution of all of the other data QA functions.
-
-
-
-# Strings ain't factors
-options(stringsAsFactors = FALSE)
-
-
-
-# Load the most recent TO 1 data into a list
-extracts <- list.files("G:\\StrategicArea\\TB_Program\\Research\\TBESC 2\\Data",
-                       pattern = "*.csv",
-                       full.names = TRUE)
-
-originals <- lapply(extracts, read.csv)
-
-
-# Rename the entries in originals for ease of reference
-names(originals) <- tolower(gsub(x = basename(extracts),
-                                 pattern = "^Denver_V(\\w*).*\\.csv",
-                                 replace = "\\1")
-)
-
-
-# Set up a "cleaned" list to preserve originals for comparisons
-cleaned <- originals
-
-
-
 ################################################################################
 # Rename variables to something actually useful
 ################################################################################
@@ -224,22 +195,3 @@ data.frame(old = names(originals$tspot),
 
 
 
-# Convert datetimes to POSIXct
-cleaned$skintest$dt_placed <- as.POSIXct(cleaned$skintest$dt_placed,
-                                         format = "%d%B%Y:%H:%M:%S.000")
-
-cleaned$skintest$dt_read <- as.POSIXct(cleaned$skintest$dt_read, 
-                                       format = "%d%B%Y:%H:%M:%S.000")
-
-cleaned$qft$dt_placed <- as.POSIXct(cleaned$qft$dt_placed,
-                                    format = "%d%B%Y:%H:%M:%S.000")
-
-cleaned$tspot$dt_placed <- as.POSIXct(cleaned$tspot$dt_placed,
-                                      format = "%d%B%Y:%H:%M:%S.000")
-
-
-
-
-
-# Write out the cleaned list for easy use
-save(cleaned, file = "to1_cleaned.rdata")
