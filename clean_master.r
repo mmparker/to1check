@@ -39,7 +39,9 @@ source("2_convert.r")
 # Recode variables as needed
 source("3_recode.r")
 
-# Scoot a few variables from one data.frame to another
+# Add StudyId to every table.  As a general rule, though, StudyId is for display
+# and PatientID remains the table key of record
+# (because that's how the DB is set up)
 source("4_mix.r")
 
 
