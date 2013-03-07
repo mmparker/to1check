@@ -1,9 +1,13 @@
+
+
 ################################################################################
 # Rename variables to something actually useful
 ################################################################################
 
-
+################################################################################
 # Rename MASTER (ie questionnaire) variables
+################################################################################
+
 # PC_1 indicates a patient's enrollment status
 names(cleaned$master)[names(originals$master) %in% "PC_1"] <- "status"
 
@@ -19,8 +23,56 @@ data.frame(old = names(originals$master),
            new = names(cleaned$master))
 
 
+################################################################################
+# Pre-enrollment
+################################################################################
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "PE_1"] <- "enroll_date"
 
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "PE_4_Years"] <- "age_years"
+
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "PE_4_Months"] <- "age_months"
+
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "PE_4_Reason"] <- "reason_4"
+
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "PE_5"] <- "gender"
+
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "PE_6_1"] <- "close_contact"
+
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "PE_6_2"] <- "foreign_born"
+
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "PE_6_3"] <- "local_group"
+
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "PE_6_4"] <- "highrisk_30"
+
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "PE_6_5"] <- "hivpos"
+
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "PE_2"] <- "accepted"
+
+
+
+data.frame(old = names(originals$preenrollment),
+           new = names(cleaned$preenrollment))
+
+
+
+
+
+
+################################################################################
 # Rename TST variables
+################################################################################
+
 names(cleaned$skintest)[names(originals$skintest) 
                           %in% "TST_1_AND_2"] <- "dt_placed"
 
@@ -81,7 +133,10 @@ data.frame(old = names(originals$skintest),
 
 
 
+################################################################################
 # Rename QFT variables
+################################################################################
+
 names(cleaned$qft)[names(originals$qft) 
                           %in% "QFT_1_AND_2"] <- "dt_placed"
 
@@ -161,7 +216,10 @@ data.frame(old = names(originals$qft),
 
 
 
+################################################################################
 # Rename TSPOT variables
+################################################################################
+
 names(cleaned$tspot)[names(originals$tspot) %in% "Status"] <- "form_status"
 
 names(cleaned$tspot)[names(originals$tspot) 
