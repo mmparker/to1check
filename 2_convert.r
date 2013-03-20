@@ -4,6 +4,11 @@
 
 
 
+# Conver dates to Dates
+cleaned$preenrollment$enroll_date <- as.Date(cleaned$preenrollment$enroll_date,
+                                             format = "%d%b%Y")
+
+
 # Convert datetimes to POSIXct
 cleaned$skintest$dt_placed <- as.POSIXct(cleaned$skintest$dt_placed,
                                          format = "%d%B%Y:%H:%M:%S.000")
