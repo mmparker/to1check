@@ -82,3 +82,17 @@ with(cleaned$qft, unique(data.frame(old = rerun_tbnil, new = rerun_tbnil.num)))
 with(cleaned$qft, unique(data.frame(old = rerun_mitnil, 
                                     new = rerun_mitnil.num)))
 
+
+
+# Participant status
+cleaned$master$status[cleaned$master$status %in% 1] <- "Triple Negative"
+cleaned$master$status[cleaned$master$status %in% 2] <- "Not eligible"
+cleaned$master$status[cleaned$master$status %in% 3] <- "FU Completed or Lost"
+cleaned$master$status[cleaned$master$status %in% 4] <- "Developed TB Disease"
+cleaned$master$status[cleaned$master$status %in% 5] <- "Died"
+cleaned$master$status[cleaned$master$status %in% 6] <- "Withdrew"
+cleaned$master$status[cleaned$master$status %in% 7] <- "Didn't complete enrollment"
+cleaned$master$status[cleaned$master$status %in% NA] <- "Open"
+
+
+
