@@ -25,6 +25,14 @@ names(originals) <- tolower(gsub(x = basename(extracts),
 )
 
 
+# Check that all of the table extracts are present
+all(names(originals) %in% c("followupfortb", "ltbi", "ltbifollowup", 
+                            "master", "medicalhistory", "preenrollment", 
+                            "qft", "riskfactor", "skintest",
+                            "tbdisease", "tspot")
+)
+
+
 # Set up a "cleaned" list to preserve originals for comparisons
 cleaned <- originals
 
