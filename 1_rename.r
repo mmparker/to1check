@@ -16,7 +16,8 @@ names(cleaned$master)[names(originals$master) %in% "PC_1"] <- "status"
 # "form_status"
 names(cleaned$master)[names(originals$master) %in% "Status"] <- "form_status"
 
-
+# Birthdate
+names(cleaned$master)[names(originals$master) %in% "SE_B1"] <- "dob"
 
 
 data.frame(old = names(originals$master),
