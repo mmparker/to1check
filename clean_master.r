@@ -1,59 +1,77 @@
 
-# This script coordinates the data cleaning, which is split across a few files
-# for ease of navigation
-# It could all be functionalized, I suppose...
+# This function coordinates the data cleaning, which is split across several
+# functions for ease of navigation
+
+
+# Cheating for function development
+setwd("G:\\StrategicArea\\TB_Program\\Research\\TBESC 2\\Data")
+extractdir <- file.path(getwd(), "originals")
+outdir <- file.path(getwd(), "cleaned")
 
 
 
-# Strings ain't factors
-options(stringsAsFactors = FALSE)
+clean_to1 <- function(extractdir, outdir) {
 
 
+    # Load the most recent TO 1 data into a list
+    extracts <- list.files(extractdir,
+                           pattern = "*.csv",
+                           full.names = TRUE)
+    
+    originals <- lapply(extracts, read.csv)
+    
+    
+    # Rename the entries in originals for ease of reference
+    names(originals) <- tolower(gsub(x = basename(extracts),
+                                     pattern = "^\\w*_V(\\w*).*\\.csv",
+                                     replace = "\\1")
+    )
+    
+    
+    # Check that all of the table extracts are present
+    expectedtables <- c("followupfortb", "ltbi", "ltbifollowup", 
+                        "master", "medicalhistory", "preenrollment", 
+                        "qft", "riskfactor", "skintest", "tbdisease", "tspot")
+    
+    missingtables <- expectedtables[!expectedtables %in% names(originals)]
+    
+    if(length(missingtables) > 0) {
+        stop(paste(
+            "The following tables are missing or didn't import correctly: ",
+            "\n",
+            paste(missingtables, collapse = "\n"),
+            sep = ""),
+            call. = FALSE
+        )
+    }
+    
+    
+    
+    
+    
+    # Rename the many, many variables to something readable
+    renamed <- rename(originals)
+    
+    # Convert variables to the correct type - e.g., char datetimes to POSIXct
+    converted <- convert(renamed)
+    
+    # Recode variables as needed
+    recoded <- recode(converted)
+    
+    # Add StudyId to every table.  As a general rule, though, 
+    # StudyId is for display and PatientID remains the table key of record
+    # (because that's how the DB is set up)
+    mixed <- mix(recoded)
+    
+    
+    
+    # Create a final "cleaned" dataset (preserves a consistent name
+    # if something comes in after mixed
+    to1clean <- mixed
+    
+    
+    # Write the end result out for ease of reference
+    save(to1clean, file = file.path(outdir, "to1_clean.rdata"))
 
-# Load the most recent TO 1 data into a list
-extracts <- list.files("..\\originals",
-                       pattern = "*.csv",
-                       full.names = TRUE)
 
-originals <- lapply(extracts, read.csv)
-
-
-# Rename the entries in originals for ease of reference
-names(originals) <- tolower(gsub(x = basename(extracts),
-                                 pattern = "^\\w*_V(\\w*).*\\.csv",
-                                 replace = "\\1")
-)
-
-
-# Check that all of the table extracts are present
-all(names(originals) %in% c("followupfortb", "ltbi", "ltbifollowup", 
-                            "master", "medicalhistory", "preenrollment", 
-                            "qft", "riskfactor", "skintest",
-                            "tbdisease", "tspot")
-)
-
-
-# Set up a "cleaned" list to preserve originals for comparisons
-cleaned <- originals
-
-
-
-# Rename the many, many variables to something readable
-source("1_rename.r")
-
-# Convert variables to the correct type - e.g., char datetimes to POSIXct
-source("2_convert.r")
-
-# Recode variables as needed
-source("3_recode.r")
-
-# Add StudyId to every table.  As a general rule, though, StudyId is for display
-# and PatientID remains the table key of record
-# (because that's how the DB is set up)
-source("4_mix.r")
-
-
-
-
-# Write the end result out for ease of reference
-save(cleaned, file = "to1_cleaned.rdata")
+}
