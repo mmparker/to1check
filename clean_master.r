@@ -71,7 +71,9 @@ clean_to1 <- function(extractdir, outdir) {
     
     
     # Write the end result out for ease of reference
-    save(to1clean, file = file.path(outdir, "to1_clean.rdata"))
+    save(to1clean, file = file.path(outdir, "to1clean.rdata"))
 
+    # And finally, return it to the current session
+    to1clean
 
 }

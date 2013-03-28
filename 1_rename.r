@@ -4,6 +4,13 @@
 # Rename variables to something actually useful
 ################################################################################
 
+
+rename <- function(originals) {
+
+    # Keep the originals for comparison
+    cleaned <- originals
+
+
 ################################################################################
 # Rename MASTER (ie questionnaire) variables
 ################################################################################
@@ -249,8 +256,10 @@ names(cleaned$tspot)[names(originals$tspot)
 
 
 # Renaming check
-data.frame(old = names(originals$tspot),
-           new = names(cleaned$tspot))
+# data.frame(old = names(originals$tspot),
+#           new = names(cleaned$tspot))
 
 
+cleaned
 
+}
