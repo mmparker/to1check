@@ -3,12 +3,6 @@
 # functions for ease of navigation
 
 
-# Cheating for function development
-setwd("G:\\StrategicArea\\TB_Program\\Research\\TBESC 2\\Data")
-extractdir <- file.path(getwd(), "originals")
-outdir <- file.path(getwd(), "cleaned")
-
-
 
 clean_to1 <- function(extractdir, outdir) {
 
