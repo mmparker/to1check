@@ -1,9 +1,6 @@
 
 
-################################################################################
 # Rename variables to something actually useful
-################################################################################
-
 
 rename <- function(originals) {
 
@@ -29,6 +26,11 @@ names(cleaned$master)[names(originals$master) %in% "SE_B1"] <- "dob"
 
 data.frame(old = names(originals$master),
            new = names(cleaned$master))
+
+
+# Enrollment date
+names(cleaned$master)[names(originals$master) %in% "SE_A5"] <- "enroll_date"
+
 
 
 ################################################################################

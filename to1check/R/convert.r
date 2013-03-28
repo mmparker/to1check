@@ -13,6 +13,8 @@ convert <- function(renamed) {
         as.Date(converted$preenrollment$enroll_date, format = "%d%b%Y")
     
     converted$master$dob <- as.Date(converted$master$dob, format = "%d%b%Y")
+
+    converted$master$enroll_date <- as.Date(converted$master$enroll_date, format = "%d%b%Y")
     
     
     # Convert datetimes to POSIXct
