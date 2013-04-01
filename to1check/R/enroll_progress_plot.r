@@ -3,16 +3,15 @@
 
 
 enroll_progress_plot <- function(enroll_dates, 
-                                 target = 500,
-                                 enroll_start = as.Date("2012-11-01"),
-                                 enroll_end = as.Date("2013-08-30")) {
+                                 target,
+                                 enroll_start,
+                                 enroll_end) {
 
     # Validate arguments
 
 
-
-    require(plyr)
     require(ggplot2)
+    require(scales)
 
     # Convert enrollment dates to weekly indicators
     enroll_weeks <- format(enroll_dates, "%Y-%U")
@@ -25,7 +24,9 @@ enroll_progress_plot <- function(enroll_dates,
                                  metric = "Target"
     )
 
-    enroll_targets$n <- target / length(enroll_targets$week)
+    weekly_target <- target / length(enroll_targets$week)
+
+    enroll_targets$n <- weekly_target
 
     enroll_targets$n_total <- seq(from = enroll_targets$n[1],
                                   length.out = length(enroll_targets$week),
@@ -54,7 +55,7 @@ enroll_progress_plot <- function(enroll_dates,
 
 
     # Use the histogram results to set up a data.frame like enroll_targets'
-    enroll_actual <- data.frame(week = as.Date(enroll_hist$breaks),
+    enroll_actual <- data.frame(week = current_bins,
                                 n = c(enroll_hist$counts, NA),
                                 metric = "Actual"
     )
@@ -70,13 +71,17 @@ enroll_progress_plot <- function(enroll_dates,
     ggplot(enroll_plot, aes(x = week, group = metric)) +
         geom_line(aes(y = n_total, color = metric), size = 1) +
         geom_point(aes(y = n_total, color = metric), size = 3) +
+
         scale_x_date(labels = date_format("%b %Y"),
                      breaks = date_breaks("months"),
                      minor_breaks = date_breaks("weeks")) +
+
         scale_color_manual("Metric", values = c("#1F78B4", "#E41A1C")) +
+
         labs(title = "TBESC2 TO1 Enrollment Progress",
-             x = "Week",
+             x = "Month",
              y = "Cumulative Enrollment") +
+
         theme(axis.text.x = element_text(angle = 290, vjust = .5))
 
 
