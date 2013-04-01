@@ -2,7 +2,7 @@
 
 
 
-enroll_progress_plot <- function(to1data, 
+enroll_progress_plot <- function(enroll_dates, 
                                  target = 500,
                                  enroll_start = as.Date("2012-11-01"),
                                  enroll_end = as.Date("2013-09-01")) {
@@ -14,13 +14,8 @@ enroll_progress_plot <- function(to1data,
     require(plyr)
     require(ggplot2)
 
-
-    # Get the questionnaire data
-    enrolldat <- to1data$master
-
-
-    # Compute weekly enrollment targets
-    enrolldat$week <- format(enrolldat$enroll_date, "%Y-%U")
+    # Convert enrollment dates to weekly indicators
+    enroll_weeks <- format(enroll_dates, "%Y-%U")
 
 
     # Calculate the required enrollment to meet the target
@@ -43,16 +38,18 @@ enroll_progress_plot <- function(to1data,
 
     # Compute actual weekly enrollment
     # Limit to enrollment during the indicated period
-    period_enrollment <- subset(enrolldat, week %in% enroll_targets$week)
-
-    enroll_actual <- ddply(period_enrollment,
-                           .var = "week", 
-                           .fun = summarise,
-                           n = sum(StudyId != "", na.rm = TRUE)
+    # Aggregate
+    enroll_actual <- data.frame(
+        table(enroll_weeks[enroll_weeks %in% enroll_targets$week])
     )
 
+    # Give it names to match enroll_targets
+    names(enroll_actual) <- c("week", "n")
+
+    # Calculate cumulative enrollment
     enroll_actual$n_enrolled <- cumsum(enroll_actual$n)
 
+    # Add identifier
     enroll_actual$metric <- "Actual"
 
 
