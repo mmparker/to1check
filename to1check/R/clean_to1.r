@@ -17,7 +17,7 @@ clean_to1 <- function(extractdir, outdir) {
     
     # Rename the entries in originals for ease of reference
     names(originals) <- tolower(gsub(x = basename(extracts),
-                                     pattern = "^\\w*_V(\\w*).*\\.csv",
+                                     pattern = "^v(\\w*).*\\.csv",
                                      replace = "\\1")
     )
     
@@ -25,7 +25,7 @@ clean_to1 <- function(extractdir, outdir) {
     # Check that all of the table extracts are present
     expectedtables <- c("followupfortb", "ltbi", "ltbifollowup", 
                         "master", "medicalhistory", "preenrollment", 
-                        "qft", "riskfactor", "skintest", "tbdisease", "tspot")
+                        "qft", "riskfactor", "skintest", "tspot")
     
     missingtables <- expectedtables[!expectedtables %in% names(originals)]
     
