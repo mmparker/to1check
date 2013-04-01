@@ -19,7 +19,7 @@ clean_to1 <- function(extractdir, outdir) {
     originals <- lapply(extracts, function(x) {
 
         # Load in the data without headers
-        records <- read.csv(x, skip = 2)
+        records <- read.csv(x, skip = 2, stringsAsFactors = FALSE)
 
         # Get names from the same files
         headers <- read.csv(x, nrows = 1)
