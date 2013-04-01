@@ -5,7 +5,7 @@
 enroll_progress_plot <- function(enroll_dates, 
                                  target = 500,
                                  enroll_start = as.Date("2012-11-01"),
-                                 enroll_end = as.Date("2013-09-01")) {
+                                 enroll_end = as.Date("2013-08-30")) {
 
     # Validate arguments
 
@@ -19,49 +19,60 @@ enroll_progress_plot <- function(enroll_dates,
 
 
     # Calculate the required enrollment to meet the target
-    enroll_targets <- data.frame(
-        week = as.character(format(seq(from = enroll_start,
-                                       to = enroll_end,
-                                       by = "week"),
-                                   "%Y-%U")),
-        metric = "Target"
+    enroll_targets <- data.frame(week = seq(from = enroll_start,
+                                            to = enroll_end,
+                                            by = "week"),
+                                 metric = "Target"
     )
 
-    weekly_target <- target / length(enroll_targets$week)
+    enroll_targets$n <- target / length(enroll_targets$week)
 
-    enroll_targets$n_enrolled <- seq(from = weekly_target, 
-                                     length.out = length(enroll_targets$week),
-                                     by = weekly_target)
+    enroll_targets$n_total <- seq(from = enroll_targets$n[1],
+                                  length.out = length(enroll_targets$week),
+                                  by = weekly_target)
 
 
 
 
     # Compute actual weekly enrollment
     # Limit to enrollment during the indicated period
-    # Aggregate
-    enroll_actual <- data.frame(
-        table(enroll_weeks[enroll_weeks %in% enroll_targets$week])
+    period_enrolls <- enroll_dates[enroll_dates >= enroll_start & 
+                                   enroll_dates <= enroll_end]
+
+    # Get counts using the same weeks as in the targets
+    # But subset to only those bins that will include the current enrollment -
+    # otherwise, the actual enrollment line plateaus out to the end of the 
+    # period instead of stopping at the current enrollment period
+    current_bins <- enroll_targets$week[enroll_targets$week < 
+                                        max(period_enrolls) + 7]
+
+
+    enroll_hist <- hist(x = period_enrolls,
+                        breaks = current_bins,
+                        right = FALSE,
+                        plot = FALSE)
+
+
+    # Use the histogram results to set up a data.frame like enroll_targets'
+    enroll_actual <- data.frame(week = as.Date(enroll_hist$breaks),
+                                n = c(enroll_hist$counts, NA),
+                                metric = "Actual"
     )
 
-    # Give it names to match enroll_targets
-    names(enroll_actual) <- c("week", "n")
+    enroll_actual$n_total <- cumsum(enroll_actual$n)
 
-    # Calculate cumulative enrollment
-    enroll_actual$n_enrolled <- cumsum(enroll_actual$n)
-
-    # Add identifier
-    enroll_actual$metric <- "Actual"
 
 
     # Combine the actual and target counts
-    enroll_plot <- rbind(enroll_targets,
-                         enroll_actual[ , c("week", "n_enrolled", "metric")]
-    )
+    enroll_plot <- rbind(enroll_targets, enroll_actual)
 
 
     ggplot(enroll_plot, aes(x = week, group = metric)) +
-        geom_line(aes(y = n_enrolled, color = metric), size = 1) +
-        geom_point(aes(y = n_enrolled, color = metric), size = 3) +
+        geom_line(aes(y = n_total, color = metric), size = 1) +
+        geom_point(aes(y = n_total, color = metric), size = 3) +
+        scale_x_date(labels = date_format("%b %Y"),
+                     breaks = date_breaks("months"),
+                     minor_breaks = date_breaks("weeks")) +
         scale_color_manual("Metric", values = c("#1F78B4", "#E41A1C")) +
         labs(title = "TBESC2 TO1 Enrollment Progress",
              x = "Week",
