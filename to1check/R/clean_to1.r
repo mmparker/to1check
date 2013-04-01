@@ -60,7 +60,7 @@ clean_to1 <- function(extractdir, outdir) {
 
 
 
-    # Rename the many, many variables to something readable
+    # Rename some of the variables for ease of use
     renamed <- rename(originals)
 
     # Convert variables to the correct type - e.g., char datetimes to POSIXct
