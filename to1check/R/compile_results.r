@@ -6,6 +6,7 @@
 compile_results <- function(cleanlist) {
 
     require(plyr)
+    require(reshape2)
 
     tsts <- cleanlist$skintest
     qfts <- cleanlist$qft
