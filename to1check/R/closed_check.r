@@ -8,7 +8,7 @@
 closed_check <- function(cleanlist, outdir) {
 
     # Get study IDs and status
-    parts <- subset(cleanlist$master, select = c("StudyId", "status"))
+    parts <- subset(cleanlist$master, select = c("StudyId", "CloseReason"))
 
 
     ########################################################################### 
@@ -33,39 +33,10 @@ closed_check <- function(cleanlist, outdir) {
 
 
     ########################################################################### 
-    # Identify any triple-negative participants who aren't closed
+    # Return any triple-negative participants who aren't closed
     ########################################################################### 
 
-    to.close <- subset(parts, 
-                       trip_neg %in% TRUE & status %in% "Open")
-
-
-    ########################################################################### 
-    # Identify any participants closed as triple-negatives who weren't
-    ########################################################################### 
-
-    not.tripneg <- subset(parts, 
-                          trip_neg %in% FALSE & status %in% "Triple Negative")
-
-
-
-
-
-    ########################################################################### 
-    # Write out the problems
-    ########################################################################### 
-
-    write.csv(to.close, 
-              file = file.path(outdir, "Triple-negative participants not yet closed.csv"),
-              row.names = FALSE
-    )
-
-
-    # Need to remove duplicates
-    write.csv(not.tripneg,
-              file = file.path(outdir, "Patients wrongly closed as triple-negative.csv"),
-              row.names = FALSE
-    )
+    subset(parts, trip_neg %in% TRUE & CloseReason %in% "Open")
 
 
 }
