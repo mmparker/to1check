@@ -35,15 +35,33 @@ calc_fu <- function(cleanlist) {
                             Sys.Date() <= parts$fu_end
 
         # Add an indicator for which FU this is
-        parts$which_fu <- paste(fu.month, "-month FU", sep = "")
-                       
+        parts$which_fu <- fu.month
+
+
+        # Calculate the number of days left for FU
+        parts$days_left <- parts$fu_end - Sys.Date()
+
+
+
+        # Determine whether it's been completed
+        fu_complete <- subset(cleanlist$followupfortb,
+                             VisitInterval %in% fu.month)
+
+        parts$completed <- parts$StudyId %in% fu_complete$StudyId
+
+
+
         # Return only those who are eligible
-        subset(parts, eligible %in% TRUE)
+        subset(parts, eligible %in% TRUE & completed %in% FALSE)
 
     })
 
 
     # Return
-    fu.report
+    arrange(fu.report, desc(days_left))
 
 }
+
+
+
+
