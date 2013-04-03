@@ -1,5 +1,8 @@
 
 
+# This function generates a plot (using ggplot2) of enrollment to date and
+# enrollment targets throughout the given period.
+
 
 
 enroll_progress_plot <- function(enroll_dates, 

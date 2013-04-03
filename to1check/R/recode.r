@@ -1,5 +1,8 @@
 
 
+# This function converts variables into more useful formats - primarily by
+# convert numeric variables into human-readable values.
+
 recode <- function(converted) {
 
     # Keep the originals for comparison

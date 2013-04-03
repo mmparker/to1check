@@ -1,4 +1,10 @@
 
+
+# This function adds useful variables from one table to the others - primarily
+# useful for IDs and visit dates.
+
+
+
 mix <- function(recoded) {
 
     # Keep the originals for comparison

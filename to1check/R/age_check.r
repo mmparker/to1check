@@ -1,8 +1,7 @@
 
 
-# This function checks that:
-# - The pre-enrollment age and the Enrollment Date - DOB are the same
-# - That pediatric patients filled out pediatric packets
+# This function checks that the ages given on pre-enrollments match those
+# calculated from birthdates and visit dates
 
 
 age_check <- function(cleanlist) {

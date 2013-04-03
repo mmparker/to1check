@@ -1,8 +1,8 @@
 
-# This function coordinates the data cleaning, which is split across several
-# functions for ease of navigation
-
-
+# This function takes the raw .csv DMS extracts and generates a single cleaned
+# R list, each element of which is one of the DMS tables.
+# Most of the cleaning actually takes place in the rename(), convert(),
+# recode(), and mix() functions.
 
 clean_to1 <- function(extractdir, outdir) {
 

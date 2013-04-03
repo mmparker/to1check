@@ -1,7 +1,6 @@
 
 # This function compiles each participant's current, definitive test results
-
-
+# into a single record with a field for each test.
 
 compile_results <- function(cleanlist) {
 

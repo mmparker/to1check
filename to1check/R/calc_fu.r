@@ -1,5 +1,6 @@
 
-# Report out participants who are eligible for follow-ups
+# Reports out participants who are eligible for follow-up,
+# sorted by days left to complete follow-up
 
 
 calc_fu <- function(cleanlist) {

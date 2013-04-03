@@ -1,8 +1,7 @@
 
-# This function that individuals who had a negative TST, QFT, and TSPOT
-# were closed, and that closed individuals have sufficient documentation of
-# why they're closed (which I think is just trip-neg and completion of two
-# of FU
+# This function checks that individuals who had a negative TST, QFT, and TSPOT
+# were closed.
+# It should probably be renamed.
 
 
 closed_check <- function(cleanlist, outdir) {

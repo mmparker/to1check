@@ -5,7 +5,6 @@
 # and dates on consent forms.
 
 
-
 gen_consent_checklist <- function(cleanlist,
                                   enroll_start = as.Date("2012-01-01"),
                                   enroll_end = Sys.Date()) {
