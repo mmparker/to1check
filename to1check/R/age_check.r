@@ -5,22 +5,18 @@
 # - That pediatric patients filled out pediatric packets
 
 
-age_check <- function(cleanlist, outdir) {
+age_check <- function(cleanlist) {
 
     require(lubridate)
 
     # Get the ages
     ages <- merge(x = subset(cleanlist$preenrollment,
-                             select = c("StudyId", "enroll_date", "age_years")),
+                             select = c("StudyId", "VisitDate", 
+                                        "AgeAtEnrollment")),
                   y = subset(cleanlist$master,
-                             select = c("StudyId", "dob")),
+                             select = c("StudyId", "BirthDate")),
                   by = "StudyId",
                   all.x = TRUE)
-
-
-    # Rename age_years to indicate its origin
-    names(ages)[names(ages) %in% "age_years"] <- pre_age
-
 
 
 
@@ -29,30 +25,21 @@ age_check <- function(cleanlist, outdir) {
     ########################################################################### 
 
     # Calculate age at enrollment
-    ages$calc_age <- 
-        with(ages, difftime(dob, enroll_date, units = "years"))
-
-x <- with(ages, as.interval(x = enroll_date, start = dob))
+    ages$calc_age <- floor(new_interval(ages$BirthDate, ages$VisitDate) / 
+                           duration(num = 1, units = "years"))
 
 
+    # Nice names for printing
+    names(ages) <- c("StudyId", "Visit Date", "Pre-Enroll Age",
+                     "Birthdate", "Calculated Age")
 
-
-
-    ########################################################################### 
-    # Write out the problems
-    ########################################################################### 
-
-    write.csv(to.close, 
-              file = file.path(outdir, "Triple-negative participants not yet closed.csv"),
-              row.names = FALSE
+    # Identify participants with different pre-enroll and questionnaire ages
+    subset(ages, 
+           subset = `Pre-Enroll Age` != `Calculated Age`,
+           select = c("StudyId", "Birthdate", "Visit Date",
+                      "Pre-Enroll Age", "Calculated Age")
     )
 
-
-    # Need to remove duplicates
-    write.csv(not.tripneg,
-              file = file.path(outdir, "Patients wrongly closed as triple-negative.csv"),
-              row.names = FALSE
-    )
 
 
 }
