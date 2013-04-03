@@ -19,6 +19,9 @@ age_check <- function(cleanlist) {
                   all.x = TRUE)
 
 
+    # Rename AgeAtEnrollment to be clear about its source
+    names(ages)[names(ages) %in% "AgeAtEnrollment"] <- "preenroll_age"
+
 
     ########################################################################### 
     # Compare pre-enrollment and Enrollment Date - DOB ages
@@ -28,16 +31,14 @@ age_check <- function(cleanlist) {
     ages$calc_age <- floor(new_interval(ages$BirthDate, ages$VisitDate) / 
                            duration(num = 1, units = "years"))
 
+    ages$age_diff <- abs(ages$calc_age - ages$preenroll_age)
 
-    # Nice names for printing
-    names(ages) <- c("StudyId", "Visit Date", "Pre-Enroll Age",
-                     "Birthdate", "Calculated Age")
 
     # Identify participants with different pre-enroll and questionnaire ages
-    subset(ages, 
-           subset = `Pre-Enroll Age` != `Calculated Age`,
-           select = c("StudyId", "Birthdate", "Visit Date",
-                      "Pre-Enroll Age", "Calculated Age")
+    subset(ages[order(ages$age_diff, decreasing = TRUE), ], 
+           subset = preenroll_age != calc_age,
+           select = c("StudyId", "BirthDate", "VisitDate",
+                      "preenroll_age", "calc_age", "age_diff")
     )
 
 
