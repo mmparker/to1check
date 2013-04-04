@@ -12,12 +12,14 @@
 
 htwt_check <- function(cleanlist) {
 
+    require(ggplot2)
 
     # Extract the height and weight data
     htwt <- subset(cleanlist$medicalhistory,
                    select = c("StudyId", "HeightInch", "WeightPound"))
 
     # Calculate the distance matrix of all the points
+    # Normalized ht/wt? Mahalanobis? Maybe later.
     distmat <- as.matrix(dist(htwt[ , c("HeightInch", "WeightPound")]))
 
     # Identify the minimum distance from each point to its nearest neighbor
@@ -30,6 +32,9 @@ htwt_check <- function(cleanlist) {
     # the quantile calculation below, so I'm converting it to NA
     htwt$mindist[htwt$mindist == Inf] <- NA
 
+
+    # Reorder the data by descending mindist
+    htwt <- htwt[order(htwt$mindist, decreasing = TRUE), ]
 
 
     # Set up a label variable that is NA except for the participants with the
