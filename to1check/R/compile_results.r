@@ -57,6 +57,76 @@ compile_results <- function(cleanlist) {
                               tst %in% "Positive" |
                               qft %in% "Positive" |
                               tspot %in% "Positive")
+    
+
+    # Add a general classification
+    tests.wide$result_class <- NA
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                   tst %in% "Negative" &
+                   qft %in% "Negative" &
+                   tspot %in% c("Negative", "Borderline")] <- "Triple Negative"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                   tst %in% "Positive" &
+                   qft %in% "Negative" &
+                   tspot %in% c("Negative", "Borderline")] <- "Isolated TST+"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                   tst %in% "Negative" &
+                   qft %in% "Positive" &
+                   tspot %in% c("Negative", "Borderline")] <- "Isolated QFT+"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                   tst %in% "Negative" &
+                   qft %in% "Negative" &
+                   tspot %in% "Positive"] <- "Isolated TSPOT+"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                   tst %in% "Negative" &
+                   qft %in% "Positive" &
+                   tspot %in% "Positive"] <- "Isolated TST-"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                  tst %in% "Positive" &
+                  qft %in% "Positive" &
+                  tspot %in% c("Negative", "Borderline")] <- "Isolated TSPOT-"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                   tst %in% "Positive" &
+                   qft %in% "Negative" &
+                   tspot %in% "Positive"] <- "Isolated QFT-"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                   tst %in% "Positive" &
+                   qft %in% "Positive" &
+                   tspot %in% "Positive"] <- "Triple Positive"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) & (
+                   tst %in% NA |
+                   qft %in% c(NA, "Indeterminate") |
+                   tspot %in% c(NA, "Test Not Performed",
+                                "Indeterminate", "Failed"))] <- "Inconclusive"
+    )
+
+
 
     # Return
     tests.wide
