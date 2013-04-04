@@ -10,7 +10,7 @@
 
 
 
-ht_wt_check <- function(cleanlist) {
+htwt_check <- function(cleanlist) {
 
 
     # Extract the height and weight data
