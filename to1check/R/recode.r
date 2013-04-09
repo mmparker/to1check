@@ -75,8 +75,10 @@ recode <- function(converted) {
     recoded$qft$rerun_mitnil.num <- resultToNumeric(recoded$qft$rerun_mitnil)
 
 
-
+    ############################################################################
     # Participant CloseReason
+    ############################################################################
+
     recoded$master$CloseReason[recoded$master$CloseReason %in% 1] <- 
         "Triple Negative"
 
@@ -100,6 +102,25 @@ recode <- function(converted) {
 
     recoded$master$CloseReason[recoded$master$CloseReason %in% NA] <- 
         "Open"
+
+
+
+    ############################################################################
+    # Convert country of birth codes from ISO 3166-1 alpha-3 to, you know,
+    # something humans can actually read
+    ############################################################################
+
+    # Load the built-in country codes data.frame
+    data(country_codes)
+
+    # Use factor() to relabel BirthCountry, then convert back to character
+    # Factors suck.
+    recoded$master$BirthCountry <- as.character(
+        factor(recoded$master$BirthCountry,
+               levels = country_codes$code,
+               labels = country_codes$name)
+    )
+
 
 
     recoded
