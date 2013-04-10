@@ -5,10 +5,10 @@
 #' This function renames the raw DMS extracts to be more consistent and
 #' easier to type.
 #' 
-#' This function is only meant to be used internally by \code{\link(clean_to1)}.
+#' This function is only meant to be used internally by \code{\link{clean_to1}}.
 #' 
 #' @param originals The list of data frames generated interally by 
-#' \code{\link(clean_to1)}
+#' \code{\link{clean_to1}}
 
 
 # Rename variables to something actually useful

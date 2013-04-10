@@ -4,10 +4,10 @@
 #' 
 #' This function merges variables from some tables onto others for ease of use.
 #' 
-#' This function expects the output of \code{\link(recode)} as its input.
-#' It's only intended to be used internally by \code{\link(clean_to1)}.
+#' This function expects the output of \code{\link{recode}} as its input.
+#' It's only intended to be used internally by \code{\link{clean_to1}}.
 #' 
-#' @param recoded The output of the \code{\link(recode)} function.
+#' @param recoded The output of the \code{\link{recode}} function.
 
 
 mix <- function(recoded) {

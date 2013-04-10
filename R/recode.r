@@ -10,14 +10,10 @@
 #'   \item Creating strictly-numeric versions of QFT and 
 #' 
 #' The input of this function should generally be the output of
-#' the \code{\link(convert)} function, and is only meant to be used internally
-#' by \code{\link(clean_to1)}
+#' the \code{\link{convert}} function, and is only meant to be used internally
+#' by \code{\link{clean_to1}}
 #' 
-#' @param converted The output of the \code{\link(convert)} function.
-
-
-# This function converts variables into more useful formats - primarily by
-# convert numeric variables into human-readable values.
+#' @param converted The output of the \code{\link{convert}} function.
 
 recode <- function(converted) {
 

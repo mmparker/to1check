@@ -5,7 +5,7 @@
   mix(recoded)
 }
 \arguments{
-  \item{recoded}{The output of the \code{\link(recode)}
+  \item{recoded}{The output of the \code{\link{recode}}
   function.}
 }
 \description{
@@ -13,8 +13,8 @@
   others for ease of use.
 }
 \details{
-  This function expects the output of \code{\link(recode)}
+  This function expects the output of \code{\link{recode}}
   as its input. It's only intended to be used internally by
-  \code{\link(clean_to1)}.
+  \code{\link{clean_to1}}.
 }
 

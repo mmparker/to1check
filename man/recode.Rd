@@ -5,7 +5,7 @@
   recode(converted)
 }
 \arguments{
-  \item{converted}{The output of the \code{\link(convert)}
+  \item{converted}{The output of the \code{\link{convert}}
   function.}
 }
 \description{
@@ -18,7 +18,7 @@
 }
 \details{
   The input of this function should generally be the output
-  of the \code{\link(convert)} function, and is only meant
-  to be used internally by \code{\link(clean_to1)}
+  of the \code{\link{convert}} function, and is only meant
+  to be used internally by \code{\link{clean_to1}}
 }
 

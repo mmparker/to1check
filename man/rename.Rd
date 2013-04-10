@@ -6,7 +6,7 @@
 }
 \arguments{
   \item{originals}{The list of data frames generated
-  interally by \code{\link(clean_to1)}}
+  interally by \code{\link{clean_to1}}}
 }
 \description{
   This function renames the raw DMS extracts to be more
@@ -14,6 +14,6 @@
 }
 \details{
   This function is only meant to be used internally by
-  \code{\link(clean_to1)}.
+  \code{\link{clean_to1}}.
 }
 
