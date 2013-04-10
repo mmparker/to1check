@@ -128,7 +128,15 @@ compile_results <- function(cleanlist) {
 
 
 
+    # Add visit dates
+    tests.dated <- merge(x = tests.wide,
+                         y = subset(cleanlist$master,
+                                    select = c("StudyId", "VisitDate")),
+                         by = "StudyId",
+                         all.x = TRUE
+    )
+
     # Return
-    tests.wide
+    tests.dated
 
 }
