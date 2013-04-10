@@ -1,8 +1,13 @@
 
 
-# This function adds useful variables from one table to the others - primarily
-# useful for IDs and visit dates.
-
+#' Distributes variables from some DMS tables to others for ease of use.
+#' 
+#' This function merges variables from some tables onto others for ease of use.
+#' 
+#' This function expects the output of \code{\link(recode)} as its input.
+#' It's only intended to be used internally by \code{\link(clean_to1)}.
+#' 
+#' @param recoded The output of the \code{\link(recode)} function.
 
 
 mix <- function(recoded) {
