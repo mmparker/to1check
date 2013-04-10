@@ -1,0 +1,4 @@
+.gitignore
+*.lnk
+dev_helper.r
+installit.r
