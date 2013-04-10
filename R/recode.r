@@ -8,6 +8,7 @@
 #'   \item Creating strictly-numeric versions of QFT and 
 #'     TSPOT quantitative results
 #'   \item Creating strictly-numeric versions of QFT and 
+#' }
 #' 
 #' The input of this function should generally be the output of
 #' the \code{\link{convert}} function, and is only meant to be used internally

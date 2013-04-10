@@ -17,7 +17,7 @@ be used alone but their outputs are oriented to that end.
 
 
 # Standalone functions
-These functions provide standalone functionality for study staff. For example,
-gen\_consent\_checklist() produces a .csv file for every participant, with a
-record for each consent document that participant should have and open fields
-for the signatures that should be on it.
+These functions provide standalone functionality for study staff. 
+For example, #' gen\_consent\_checklist() produces a .csv file with a record
+for each theoretically-existing consent document for all enrolled particpants
+and open fields for each signature that should be on them.
