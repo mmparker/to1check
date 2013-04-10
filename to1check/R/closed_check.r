@@ -7,7 +7,9 @@
 closed_check <- function(cleanlist, outdir) {
 
     # Get study IDs and status
-    parts <- subset(cleanlist$master, select = c("StudyId", "CloseReason"))
+    parts <- subset(cleanlist$master, 
+                    select = c("StudyId", "CloseReason", "VisitDate")
+    )
 
 
     ########################################################################### 
