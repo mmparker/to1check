@@ -1,9 +1,20 @@
 
-
-# This function generates a plot (using ggplot2) of enrollment to date and
-# enrollment targets throughout the given period.
-
-
+#' Generate a plot of enrollment progress and targets throughout a given period.
+#' 
+#' This function generates a plot (using ggplot2) of cumulative enrollment
+#' progress and enrollment targets throughout the given period.
+#' The plot currently aggregates by week only.
+#' 
+#' 
+#' @return
+#' A ggplot2 plot.
+#' 
+#' @param enroll_dates A Date vector of enrollment dates
+#' @param target The total enrollment target for the period
+#' @param enroll_start The start Date of the enrollment period
+#' @param enroll_end The end Date of the enrollment period
+#' 
+#' @export
 
 enroll_progress_plot <- function(enroll_dates, 
                                  target,
