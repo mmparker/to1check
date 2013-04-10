@@ -3,7 +3,25 @@ Type: Package
 Title: Reporting and quality checks for TBESC TO 1 data
 Version: 0.1
 Date: 2013-04-04
-Author: Matt Parker 
+Author: Matt Parker
 Maintainer: Matt Parker <mattmparker@gmail.com>
-Description: This package generates a variety of reports and data quality checks from TBESC TO 1 data extracts.
+Description: This package generates a variety of reports and data quality
+    checks from TBESC TO 1 data extracts.
 License: What license is it under?
+Collate:
+    'age_check.r'
+    'calc_fu.r'
+    'clean_to1.r'
+    'closed_check.r'
+    'compile_results.r'
+    'convert.r'
+    'enroll_progress_plot.r'
+    'gen_consent_checklist.r'
+    'htwt_check.r'
+    'mix.r'
+    'recode.r'
+    'rename.r'
+    'tst_check.r'
+    'tst_win_check.r'
+    'tx_check.r'
+    'tx_check_denver.r'
