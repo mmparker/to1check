@@ -4,7 +4,7 @@
 # Most of the cleaning actually takes place in the rename(), convert(),
 # recode(), and mix() functions.
 
-clean_to1 <- function(extractdir, outdir) {
+clean_to1 <- function(extractdir) {
 
 
     # Load the most recent TO 1 data into a list
@@ -81,10 +81,7 @@ clean_to1 <- function(extractdir, outdir) {
     to1clean <- mixed
 
 
-    # Write the end result out for ease of reference
-    save(to1clean, file = file.path(outdir, "to1clean.rdata"))
-
-    # And finally, return it to the current session
+    # Return the cleaned data
     to1clean
 
 }
