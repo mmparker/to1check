@@ -13,10 +13,13 @@ This package generates a variety of reports and data quality checks from TBESC T
 Package: \tab to1check\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
-Date: \tab 2013-03-28\cr
-License: \tab What license is it under?\cr
+Date: \tab 2013-04-10\cr
+License: \tab MIT\cr
 }
-An overview of how to use the package, including the most important functions
+This package makes it easier to run reports and data quality checks against the
+TO 1 DMS extracts. Its key function is \code{\link{clean_to1}}, which converts
+the raw DMS extracts into a clean, prepared list of data.frames. The remainder
+of its functions generate various reports and plots.
 }
 \author{
 Matt Parker
