@@ -124,7 +124,7 @@ recode <- function(converted) {
     ############################################################################
 
     # Load the built-in country codes data.frame
-    data(country_codes)
+    data(country_codes, envir = environment())
 
     # Use factor() to relabel BirthCountry, then convert back to character
     # Factors suck.
