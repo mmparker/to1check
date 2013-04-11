@@ -62,7 +62,7 @@ clean_to1 <- function(extractdir) {
     # Rename the entries in originals for ease of reference
     names(originals) <- tolower(gsub(x = basename(extracts),
                                      pattern = "^v(\\w*).*\\.csv",
-                                     replace = "\\1")
+                                     replacement = "\\1")
     )
 
 

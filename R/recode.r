@@ -57,7 +57,7 @@ recode <- function(converted) {
     ############################################################################
 
     resultToNumeric <- function(x) {
-        as.numeric(gsub(x = x, pattern = ">", replace = ""))
+        as.numeric(gsub(x = x, pattern = ">", replacement = ""))
     }
 
 
