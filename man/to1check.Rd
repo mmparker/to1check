@@ -17,8 +17,8 @@ can be broken down into three groups:}
   numeric, dates are Dates, datetimes are POSIX, StudyId is
   available on every table).
 
-  to1_clean() is the only function you need; it applies the
-  others appropriately.
+  \code{\link{to1_clean}} is the only function you need; it
+  applies the others appropriately.
 
   Functions for data quality checking
 

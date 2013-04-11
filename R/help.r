@@ -10,7 +10,7 @@
 #' generally have well-formated variables (character-coded instead of numeric,
 #' dates are Dates, datetimes are POSIX, StudyId is available on every table).
 #' 
-#' to1_clean() is the only function you need;
+#' \code{\link{clean_to1}} is the only function you need;
 #' it applies the others appropriately.
 #' 
 #' 

@@ -13,8 +13,7 @@
   \item{enroll_start}{The first day of enrollments to
   review.}
 
-  \item{enroll_start}{The last day of enrollments to
-  review.}
+  \item{enroll_end}{The last day of enrollments to review.}
 }
 \description{
   This function generates a data.frame that can be saved to
