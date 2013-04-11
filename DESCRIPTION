@@ -8,6 +8,7 @@ Maintainer: Matt Parker <mattmparker@gmail.com>
 Description: This package generates a variety of reports and data quality
     checks from TBESC TO 1 data extracts.
 License: MIT
+Depends: ggplot2, lubridate, plyr, reshape2, scales, xtable
 Collate:
     'age_check.r'
     'calc_fu.r'
