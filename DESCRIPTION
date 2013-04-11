@@ -33,3 +33,4 @@ Collate:
     'tx_check.r'
     'tx_check_denver.r'
     'help.r'
+    'country_codes.r'
