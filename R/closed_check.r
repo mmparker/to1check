@@ -18,9 +18,8 @@
 closed_check <- function(cleanlist) {
 
     # Get study IDs and status
-    parts <- subset(cleanlist$master, 
-                    select = c("StudyId", "CloseReason", "VisitDate")
-    )
+    parts <- cleanlist$master[ , c("StudyId", "CloseReason", "VisitDate")]
+
 
 
     ########################################################################### 
@@ -48,7 +47,7 @@ closed_check <- function(cleanlist) {
     # Return any triple-negative participants who aren't closed
     ########################################################################### 
 
-    subset(parts, trip_neg %in% TRUE & CloseReason %in% "Open")
+    parts[parts$trip_neg %in% TRUE * parts$CloseReason %in% "Open", ]
 
 
 }
