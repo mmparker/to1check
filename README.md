@@ -8,16 +8,18 @@ data.frames, each corresponding to a raw .csv file.  Those data.frames should
 generally have well-formated variables (character-coded instead of numeric,
 dates are Dates, datetimes are POSIX, StudyId is available on every table).
 
-to1\_clean() is the only function you need; it applies the others appropriately.
+`clean_to1` is the only function you need; it applies the others appropriately.
 
 
 ### Functions for data quality checking
-These functions underlie the TO 1 auto-QA report (link); they can definitely
+These functions underlie the TO 1 auto-QA report 
+(https://github.com/mmparker/to1report); they can definitely
 be used alone but their outputs are oriented to that end.
 
 
 ### Standalone functions
 These functions provide standalone functionality for study staff. 
-For example, gen\_consent\_checklist() produces a .csv file with a record
+For example, `gen_consent_checklist` produces a data.frame with a record
 for each theoretically-existing consent document for all enrolled particpants
-and open fields for each signature that should be on them.
+and open fields for each signature that should be on them.  Write it out to
+.csv, tidy up in Excel, and print.
