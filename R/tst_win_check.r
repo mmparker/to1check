@@ -17,7 +17,7 @@
 
 tst_win_check <- function(cleanlist) {
 
-    tsts <- cleanlist$skintest
+    tsts <- cleanlist$skintest[cleanlist$skintest$Status %in% "Submitted", ]
 
 
     ########################################################################### 
