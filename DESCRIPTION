@@ -29,7 +29,6 @@ Collate:
     'mix.r'
     'recode.r'
     'rename.r'
-    'tst_check.r'
     'tst_win_check.r'
     'tx_check.r'
     'tx_check_denver.r'
