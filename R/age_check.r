@@ -26,13 +26,11 @@ age_check <- function(cleanlist) {
     require(lubridate)
 
     # Get the ages
-    ages <- merge(x = subset(cleanlist$preenrollment,
-                             select = c("StudyId", "VisitDate", 
-                                        "AgeAtEnrollment")),
-                  y = subset(cleanlist$master,
-                             select = c("StudyId", "BirthDate")),
-                  by = "StudyId",
-                  all.x = TRUE)
+    ages <- merge(x = cleanlist$preenrollment[ , c("StudyId", "VisitDate", 
+                                                   "AgeAtEnrollment")],
+                  y = cleanlist$master[ , c("StudyId", "BirthDate")],
+                  by = "StudyId")
+
 
 
     # Rename AgeAtEnrollment to be clear about its source
@@ -51,11 +49,13 @@ age_check <- function(cleanlist) {
 
 
     # Identify participants with different pre-enroll and questionnaire ages
-    subset(ages[order(ages$age_diff, decreasing = TRUE), ], 
-           subset = preenroll_age != calc_age,
-           select = c("StudyId", "BirthDate", "VisitDate",
-                      "preenroll_age", "calc_age", "age_diff")
-    )
+    ages_out <- ages[ages$age_diff > 0,
+                     c("StudyId", "BirthDate", "VisitDate",
+                      "preenroll_age", "calc_age", "age_diff")]
+
+
+    # Sort by age difference and output
+    ages_out[order(ages_out$age_diff, decreasing = TRUE), ]
 
 
 
