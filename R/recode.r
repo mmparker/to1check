@@ -123,11 +123,9 @@ recode <- function(converted) {
     # something humans can actually read
     ############################################################################
 
-    # Load the built-in country codes data.frame
-    data(country_codes, envir = environment())
-
     # Use factor() to relabel BirthCountry, then convert back to character
-    # Factors suck.
+    # Uses the to1check package's internal abbreviation -> name dictionary,
+    # country_codes
     recoded$master$BirthCountry <- as.character(
         factor(recoded$master$BirthCountry,
                levels = country_codes$code,
