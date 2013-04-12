@@ -25,9 +25,8 @@ calc_fu <- function(cleanlist) {
 
     # Subset to those with 1+ positive tests who completed enrollment
     # This is a crude approximation
-    testpos <- subset(cleanlist$master, 
-                      subset = CloseReason %in% "Open",
-                      select = c("StudyId", "VisitDate"))
+    testpos <- cleanlist$master[cleanlist$master$CloseReason %in% "Open",
+                                c("StudyId", "VisitDate")]
 
     # Use visit date as the date of record - the protocol allows some 
     # variability, but this ought to be close enough.
@@ -60,21 +59,22 @@ calc_fu <- function(cleanlist) {
 
 
         # Determine whether it's been completed
-        fu_complete <- subset(cleanlist$followupfortb,
-                             VisitInterval %in% fu.month)
+        fu_complete <- with(cleanlist$followupfortb,
+            cleanlist$followupfortb[VisitInterval %in% fu.month, ]
+        )
 
         parts$completed <- parts$StudyId %in% fu_complete$StudyId
 
 
 
         # Return only those who are eligible
-        subset(parts, eligible %in% TRUE & completed %in% FALSE)
+        parts[parts$eligible %in% TRUE & parts$completed %in% FALSE, ]
 
     })
 
 
     # Return
-    arrange(fu.report, desc(days_left))
+    fu.report[order(fu.report$days_left, decreasing = TRUE), ]
 
 }
 
