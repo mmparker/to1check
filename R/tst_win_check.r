@@ -30,12 +30,9 @@ tst_win_check <- function(cleanlist) {
 
 
     # Report any outside of the 48-72 hour bounds (which are actually 44-76)
-    subset(tsts,
-           subset = hrs_to_read > 76 |
-                    hrs_to_read < 44,
-           select = c("StudyId", "dt_placed", "TstPlacedBy",
-                      "dt_read", "TstReadBy", "hrs_to_read")
-    )
+    tsts[tsts$hrs_to_read > 76 | tsts$hrs_to_read < 44, 
+        c("StudyId", "dt_placed", "TstPlacedBy",
+          "dt_read", "TstReadBy", "hrs_to_read")]
 
 
 

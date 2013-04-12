@@ -39,12 +39,15 @@
 
 
 htwt_check <- function(cleanlist) {
+    
+    # Ensure that these variables are defined within the function's environment
+    HeightInch <- WeightPound <- NULL
 
     require(ggplot2)
 
     # Extract the height and weight data
-    htwt <- subset(cleanlist$medicalhistory,
-                   select = c("StudyId", "HeightInch", "WeightPound"))
+    htwt <- cleanlist$medicalhistory[ , c("StudyId", "HeightInch", 
+                                          "WeightPound")]
 
     # Calculate the distance matrix of all the points
     # Normalized ht/wt? Mahalanobis? Maybe later.
@@ -91,19 +94,12 @@ htwt_check <- function(cleanlist) {
 
 
     # Create the table of outliers
-    output$outlierdf <- subset(htwt, 
-                               subset = !is.na(label),
-                               select = c("StudyId", "HeightInch", 
-                                          "WeightPound")
-    )
-
+    output$outlierdf <- htwt[!is.na(htwt$label),
+                             c("StudyId", "HeightInch", "WeightPound")]
 
     # Create the table of participants with missing height or weight
-    output$missingdf <- subset(htwt,
-                               subset = is.na(HeightInch) | is.na(WeightPound),
-                               select = c("StudyId", "HeightInch", 
-                                          "WeightPound")
-     )
+    output$missingdf <- htwt[is.na(htwt$HeightInch) | is.na(htwt$WeightPound),
+                             c("StudyId", "HeightInch", "WeightPound")]
 
 
 

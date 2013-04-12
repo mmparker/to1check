@@ -43,6 +43,10 @@ gen_consent_checklist <- function(cleanlist,
                                   enroll_end = Sys.Date()) {
 
 
+    # Ensure that these variables are defined within the function's environment
+    Interpreter <- Parent <- Participant <- Staff <- NULL
+
+
     require(reshape2)
     require(xtable)
 

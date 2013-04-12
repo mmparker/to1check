@@ -21,6 +21,9 @@ enroll_progress_plot <- function(enroll_dates,
                                  enroll_start,
                                  enroll_end) {
 
+    # Ensure that these variables are defined within the function's environment
+    metric <- n_total <- NULL
+
     # Validate arguments
 
 

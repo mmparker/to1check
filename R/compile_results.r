@@ -18,6 +18,9 @@
 
 compile_results <- function(cleanlist) {
 
+    # Ensure that these variables are defined within the function's environment
+    tst <- qft <- tspot <- NULL
+
     require(plyr)
     require(reshape2)
 
@@ -39,13 +42,21 @@ compile_results <- function(cleanlist) {
 
 
     # Select only the most recent test for each individual
-    tsts.sorted <- arrange(tsts, StudyId, desc(dt_placed))
+    tsts.sorted <- tsts[order(tsts$StudyId, tsts$dt_placed, 
+                              decreasing = TRUE), ]
+
     tsts.latest <- tsts.sorted[!duplicated(tsts.sorted$StudyId), ]
 
-    qfts.sorted <- arrange(qfts, StudyId, desc(dt_placed))
+
+    qfts.sorted <- qfts[order(qfts$StudyId, qfts$dt_placed, 
+                              decreasing = TRUE), ]
+
     qfts.latest <- qfts.sorted[!duplicated(qfts.sorted$StudyId), ]
 
-    tspots.sorted <- arrange(tspots, StudyId, desc(dt_placed))
+
+    tspots.sorted <- tspots[order(tspots$StudyId, tspots$dt_placed, 
+                                  decreasing = TRUE), ]
+
     tspots.latest <- tspots.sorted[!duplicated(tspots.sorted$StudyId), ]
 
 
@@ -144,8 +155,7 @@ compile_results <- function(cleanlist) {
 
     # Add visit dates
     tests.dated <- merge(x = tests.wide,
-                         y = subset(cleanlist$master,
-                                    select = c("StudyId", "VisitDate")),
+                         y = cleanlist$master[ , c("StudyId", "VisitDate")],
                          by = "StudyId",
                          all.x = TRUE
     )
