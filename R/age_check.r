@@ -49,7 +49,7 @@ age_check <- function(cleanlist) {
 
 
     # Identify participants with different pre-enroll and questionnaire ages
-    ages_out <- ages[ages$age_diff > 0,
+    ages_out <- ages[which(ages$age_diff > 0),
                      c("StudyId", "BirthDate", "VisitDate",
                       "preenroll_age", "calc_age", "age_diff")]
 
