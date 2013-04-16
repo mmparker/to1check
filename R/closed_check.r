@@ -47,7 +47,7 @@ closed_check <- function(cleanlist) {
     # Return any triple-negative participants who aren't closed
     ########################################################################### 
 
-    parts[parts$trip_neg %in% TRUE * parts$CloseReason %in% "Open", ]
+    parts[parts$trip_neg %in% TRUE & parts$CloseReason %in% "Open", ]
 
 
 }
