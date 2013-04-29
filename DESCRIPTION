@@ -34,3 +34,4 @@ Collate:
     'tx_check_denver.r'
     'help.r'
     'country_codes.r'
+    'to_close.r'
