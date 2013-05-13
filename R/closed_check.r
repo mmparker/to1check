@@ -50,8 +50,27 @@ closed_check <- function(cleanlist) {
                                trip_neg %in% FALSE)
 
     ########################################################################### 
-    # More errors here
+    # Identify individuals with missing results
     ########################################################################### 
+
+    parts$tst_missing <- parts$StudyId %in% 
+        cleanlist$skintest$StudyId[is.na(cleanlist$skintest$result)]
+
+    parts$qft_missing <- parts$StudyId %in% 
+        cleanlist$qft$StudyId[is.na(cleanlist$qft$result)]
+
+    parts$tspot_missing <- parts$StudyId %in% 
+        cleanlist$tspot$StudyId[cleanlist$tspot$result %in% 
+                                c(NA, "Test Not Performed")]
+
+    parts$any_missing <- with(parts, tst_missing | qft_missing | tspot_missing)
+
+
+    # Identify those who were closed without all results in
+    parts$missing_results <- with(parts, 
+                                  CloseReason %in% 'Triple Negative' &
+                                  any_missing %in% TRUE)
+
 
 
     ########################################################################### 
@@ -61,6 +80,8 @@ closed_check <- function(cleanlist) {
     parts$close_problem <- NA
 
     parts$close_problem[parts$not_trip_neg] <- "Not Triple-Negative"
+
+    parts$close_problem[parts$missing_results] <- "Missing Test Result"
 
 
     ########################################################################### 
