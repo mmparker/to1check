@@ -23,22 +23,46 @@ closed_check <- function(cleanlist) {
     parts <- cleanlist$master[ , c("StudyId", "CloseReason", "VisitDate")]
 
 
+    # Get the most recent test of each type
+    # Sort by ID and date, then take the first test for each ID
+    sorted_tsts <- with(cleanlist, 
+                       skintest[order(skintest$StudyId, 
+                                      skintest$dt_placed, 
+                                      decreasing = TRUE), ]
+    )
+
+    latest_tsts <- sorted_tsts[!duplicated(sorted_tsts[ , "StudyId"]), ]
+
+    sorted_qfts <- with(cleanlist, 
+                        qft[order(qft$StudyId, 
+                                  qft$dt_placed, 
+                                  decreasing = TRUE), ]
+    )
+
+    latest_qfts <- sorted_qfts[!duplicated(sorted_qfts[ , "StudyId"]), ]
+
+    sorted_tspots <- with(cleanlist, 
+                          tspot[order(tspot$StudyId, 
+                                      tspot$dt_placed, 
+                                      decreasing = TRUE), ]
+    )
+
+    latest_tspots <- sorted_tspots[!duplicated(sorted_tspots[ , "StudyId"]), ]
+
 
     ########################################################################### 
     # Identify the triple-negatives
     ########################################################################### 
 
-    # Participants can have multiple tests, so I'll need to expand this
-    # to accommodate that...
     parts$tst_neg <- parts$StudyId %in% 
-        cleanlist$skintest$StudyId[cleanlist$skintest$result %in% "Negative"]
+        latest_tsts$StudyId[latest_tsts$result %in% "Negative"]
 
     parts$qft_neg <- parts$StudyId %in% 
-        cleanlist$qft$StudyId[cleanlist$qft$result %in% 
+        latest_qfts$StudyId[latest_qfts$result %in% 
                               c("Negative", "Indeterminate")]
 
     parts$tspot_neg <- parts$StudyId %in% 
-        cleanlist$tspot$StudyId[cleanlist$tspot$result %in% 
+        latest_tspots$StudyId[latest_tspots$result %in% 
                                 c("Negative", "Borderline", "Invalid")]
 
     parts$trip_neg <- with(parts, tst_neg & qft_neg & tspot_neg)
@@ -53,15 +77,21 @@ closed_check <- function(cleanlist) {
     # Identify individuals with missing results
     ########################################################################### 
 
+    # Check for either an existing record with no result, or absence of a TST
+    # record altogether
     parts$tst_missing <- parts$StudyId %in% 
-        cleanlist$skintest$StudyId[is.na(cleanlist$skintest$result)]
+        c(latest_tsts$StudyId[is.na(latest_tsts$result)],
+          parts$StudyId[!parts$StudyId %in% latest_tsts$StudyId])
 
     parts$qft_missing <- parts$StudyId %in% 
-        cleanlist$qft$StudyId[is.na(cleanlist$qft$result)]
+        c(latest_qfts$StudyId[is.na(latest_qfts$result)],
+          parts$StudyId[!parts$StudyId %in% latest_qfts$StudyId])
+
 
     parts$tspot_missing <- parts$StudyId %in% 
-        cleanlist$tspot$StudyId[cleanlist$tspot$result %in% 
-                                c(NA, "Test Not Performed")]
+        c(latest_tspots$StudyId[is.na(latest_tspots$result)],
+          latest_tspots$StudyId[latest_tspots$result %in% "Test Not Performed"],
+          parts$StudyId[!parts$StudyId %in% latest_tspots$StudyId])
 
     parts$any_missing <- with(parts, tst_missing | qft_missing | tspot_missing)
 
