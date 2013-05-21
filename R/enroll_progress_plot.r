@@ -93,7 +93,7 @@ enroll_progress_plot <- function(enroll_dates,
                      breaks = date_breaks("months"),
                      minor_breaks = date_breaks("weeks")) +
 
-        scale_color_manual("Metric", values = c("#1F78B4", "#E41A1C")) +
+        scale_color_manual("Enrollment", values = c("#1F78B4", "#E41A1C")) +
 
         labs(title = "TBESC2 TO1 Enrollment Progress",
              x = "Month",
