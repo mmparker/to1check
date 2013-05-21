@@ -46,8 +46,9 @@ htwt_check <- function(cleanlist) {
     require(ggplot2)
 
     # Extract the height and weight data
-    htwt <- cleanlist$medicalhistory[ , c("StudyId", "HeightInch", 
-                                          "WeightPound")]
+    htwt <- cleanlist$medicalhistory[ , c("StudyId", 
+                                          "HeightInch", "HeightInchIdk",
+                                          "WeightPound", "WeightPoundIdk")]
 
     # Calculate the distance matrix of all the points
     # Normalized ht/wt? Mahalanobis? Maybe later.
@@ -98,7 +99,14 @@ htwt_check <- function(cleanlist) {
                              c("StudyId", "HeightInch", "WeightPound")]
 
     # Create the table of participants with missing height or weight
-    output$missingdf <- htwt[is.na(htwt$HeightInch) | is.na(htwt$WeightPound),
+    # To be truly missing, both the measure and its "I Don't Know" indicator
+    # need to be NA
+    htwt$heightmissing <- is.na(htwt$HeightInch) & is.na(htwt$HeightInchIdk)
+
+    htwt$weightmissing <- is.na(htwt$WeightPound) & is.na(htwt$WeightPoundIdk)
+
+
+    output$missingdf <- htwt[(htwt$heightmissing | htwt$weightmissing),
                              c("StudyId", "HeightInch", "WeightPound")]
 
 
