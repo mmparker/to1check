@@ -1,7 +1,7 @@
 
 #' Prepare the raw TO1 extracts for use.
 #' 
-#' This function converts the raw .csv extracts from the DMS website into
+#' This function converts the zipped .csv extracts from the DMS website into
 #' a list of data.frames (one for each table) that have been cleaned up for
 #' use in R.
 #' 
@@ -25,31 +25,35 @@
 #' The data.frame is ordered by days left to complete the interview.
 #' 
 #' 
-#' @param extractdir A directory containing only the ten .csv 
+#' @param extractfile A zip file containing the ten .csv
 #'   files from the DMS data extract page.
 #' 
 #' @export
 
 
-clean_to1 <- function(extractdir) {
+clean_to1 <- function(extractfile) {
 
 
-    # Load the most recent TO 1 data into a list
-    extracts <- list.files(extractdir,
-                           pattern = "*.csv",
-                           full.names = TRUE)
+    # Get the list of files within the data extract zip
+    component_list <- unzip(extractfile, list = TRUE)[ , "Name"]
 
     # The DMS downloads have a header on two rows - row one is nice names,
     # row two is original questionnaire-number names.
     # This is the best way I can think of to keep the first and drop the
     # second...
-    originals <- lapply(extracts, function(x) {
+    originals <- lapply(component_list, function(filename) {
+
+        # Set up a connection to the CSV file
+        conn <- unz(extractfile, filename)
 
         # Load in the data without headers
-        records <- read.csv(x, skip = 2, stringsAsFactors = FALSE)
+        records <- read.csv(conn, skip = 2, stringsAsFactors = FALSE)
+
+        # Reconnect
+        conn <- unz(extractfile, filename)
 
         # Get names from the same files
-        headers <- read.csv(x, nrows = 1)
+        headers <- read.csv(conn, nrows = 1)
 
         names(records) <- names(headers)
 
@@ -59,8 +63,9 @@ clean_to1 <- function(extractdir) {
     )
 
 
+
     # Rename the entries in originals for ease of reference
-    names(originals) <- tolower(gsub(x = basename(extracts),
+    names(originals) <- tolower(gsub(x = as.character(component_list),
                                      pattern = "^v(\\w*).*\\.csv",
                                      replacement = "\\1")
     )

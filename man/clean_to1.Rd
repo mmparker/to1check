@@ -2,11 +2,11 @@
 \alias{clean_to1}
 \title{Prepare the raw TO1 extracts for use.}
 \usage{
-  clean_to1(extractdir)
+  clean_to1(extractfile)
 }
 \arguments{
-  \item{extractdir}{A directory containing only the ten
-  .csv files from the DMS data extract page.}
+  \item{extractfile}{A zip file containing the ten .csv
+  files from the DMS data extract page.}
 }
 \value{
   This function returns a data.frame of participants who
@@ -19,9 +19,9 @@
   complete the interview.
 }
 \description{
-  This function converts the raw .csv extracts from the DMS
-  website into a list of data.frames (one for each table)
-  that have been cleaned up for use in R.
+  This function converts the zipped .csv extracts from the
+  DMS website into a list of data.frames (one for each
+  table) that have been cleaned up for use in R.
 }
 \details{
   This funciton makes several modifications that greatly
