@@ -51,9 +51,9 @@ convert <- function(renamed) {
     converted$master$LocalID3 <- as.character(converted$master$LocalID3)
 
     # Convert blanks to NA
-    converted$master$LocalID1[converted$master$LocalID %in% ""] <- NA
-    converted$master$LocalID1[converted$master$LocalID %in% ""] <- NA
-    converted$master$LocalID1[converted$master$LocalID %in% ""] <- NA
+    converted$master$LocalID1[converted$master$LocalID1 %in% ""] <- NA
+    converted$master$LocalID2[converted$master$LocalID2 %in% ""] <- NA
+    converted$master$LocalID3[converted$master$LocalID3 %in% ""] <- NA
 
 
     converted
