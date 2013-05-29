@@ -47,7 +47,11 @@ clean_to1 <- function(extractfile) {
         conn <- unz(extractfile, filename)
 
         # Load in the data without headers
-        records <- read.csv(conn, skip = 2, stringsAsFactors = FALSE)
+        records <- read.csv(conn, 
+                            skip = 2, 
+                            stringsAsFactors = FALSE,
+                            header = FALSE)
+
 
         # Reconnect
         conn <- unz(extractfile, filename)
