@@ -29,6 +29,13 @@ convert <- function(renamed) {
     converted$master$VisitDate <- as.Date(converted$master$VisitDate, 
                                           format = "%m/%d/%Y")
 
+    converted$ltbifollowup$VisitDate <- 
+        as.Date(converted$ltbifollowup$VisitDate, format = "%m/%d/%Y")
+
+    converted$ltbifollowup$NextFollowUpDate <- 
+        as.Date(converted$ltbifollowup$NextFollowUpDate, format = "%m/%d/%Y")
+
+
 
     # Convert datetimes to POSIXct
     converted$skintest$dt_placed <- 
