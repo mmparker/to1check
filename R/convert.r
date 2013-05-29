@@ -44,7 +44,18 @@ convert <- function(renamed) {
         as.POSIXct(converted$tspot$dt_placed, format = "%m/%d/%Y %H:%M")
 
 
-    converted
+    
+    # Convert all LocalIDs to character 
+    converted$master$LocalID1 <- as.character(converted$master$LocalID1)
+    converted$master$LocalID2 <- as.character(converted$master$LocalID2)
+    converted$master$LocalID3 <- as.character(converted$master$LocalID3)
 
+    # Convert blanks to NA
+    converted$master$LocalID1[converted$master$LocalID %in% ""] <- NA
+    converted$master$LocalID1[converted$master$LocalID %in% ""] <- NA
+    converted$master$LocalID1[converted$master$LocalID %in% ""] <- NA
+
+
+    converted
 
 }
