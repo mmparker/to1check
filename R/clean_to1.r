@@ -93,7 +93,7 @@ clean_to1 <- function(extractfile) {
 
 
     # Rename some of the variables for ease of use
-    renamed <- rename(originals)
+    renamed <- to1check:::rename(originals)
 
     # Convert variables to the correct type - e.g., char datetimes to POSIXct
     converted <- convert(renamed)
