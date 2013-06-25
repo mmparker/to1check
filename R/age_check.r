@@ -42,8 +42,9 @@ age_check <- function(cleanlist) {
     ########################################################################### 
 
     # Calculate age at enrollment
-    ages$calc_age <- floor(new_interval(ages$BirthDate, ages$VisitDate) / 
-                           duration(num = 1, units = "years"))
+    ages$calc_age <- 
+        as.period(new_interval(ages$BirthDate, ages$VisitDate),
+                  unit = "year")$year
 
     ages$age_diff <- abs(ages$calc_age - ages$preenroll_age)
 
@@ -55,7 +56,7 @@ age_check <- function(cleanlist) {
 
 
     # Sort by age difference and output
-    ages_out[order(ages_out$age_diff, decreasing = TRUE), ]
+    ages_out[order(ages_out$age_diff, ages_out$VisitDate, decreasing = TRUE), ]
 
 
 
