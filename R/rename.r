@@ -20,6 +20,11 @@ rename <- function(originals) {
 
 
 
+# For whatever reason, StudyID on master has a lower-case last d. Fix it.
+names(cleaned$master)[names(cleaned$master) %in% "StudyId"] <- "StudyID"
+
+
+
 ################################################################################
 # Clarify the various VisitDate variables
 ################################################################################
