@@ -26,7 +26,6 @@ Collate:
     'enroll_progress_plot.r'
     'gen_consent_checklist.r'
     'htwt_check.r'
-    'mix.r'
     'recode.r'
     'rename.r'
     'tst_win_check.r'
