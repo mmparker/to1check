@@ -23,4 +23,8 @@
   are eligible to complete a 6-, 12-, 18-, or 24-month
   follow-up interview.
 }
+\seealso{
+  \code{\link{check_fu}} for identifying follow-ups that
+  occurred outside of an eligibility period.
+}
 

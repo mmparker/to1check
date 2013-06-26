@@ -34,3 +34,4 @@ Collate:
     'help.r'
     'country_codes.r'
     'to_close.r'
+    'check_fu.r'
