@@ -46,7 +46,7 @@ htwt_check <- function(cleanlist) {
     require(ggplot2)
 
     # Extract the height and weight data
-    htwt <- cleanlist$medicalhistory[ , c("StudyId", 
+    htwt <- cleanlist$medicalhistory[ , c("StudyID", 
                                           "HeightInch", "HeightInchIdk",
                                           "WeightPound", "WeightPoundIdk")]
 
@@ -71,7 +71,7 @@ htwt_check <- function(cleanlist) {
 
     # Set up a label variable that is NA except for the participants with the
     # most-distant points
-    htwt$label <- htwt$StudyId
+    htwt$label <- htwt$StudyID
 
     # Less than the 98th percentile?  No label.
     htwt$label[htwt$mindist < quantile(htwt$mindist, .99, na.rm = TRUE)] <- NA
@@ -96,7 +96,7 @@ htwt_check <- function(cleanlist) {
 
     # Create the table of outliers
     output$outlierdf <- htwt[!is.na(htwt$label),
-                             c("StudyId", "HeightInch", "WeightPound")]
+                             c("StudyID", "HeightInch", "WeightPound")]
 
     # Create the table of participants with missing height or weight
     # To be truly missing, both the measure and its "I Don't Know" indicator
@@ -107,7 +107,7 @@ htwt_check <- function(cleanlist) {
 
 
     output$missingdf <- htwt[(htwt$heightmissing | htwt$weightmissing),
-                             c("StudyId", "HeightInch", "WeightPound")]
+                             c("StudyID", "HeightInch", "WeightPound")]
 
 
 

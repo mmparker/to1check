@@ -29,7 +29,7 @@ calc_fu <- function(cleanlist) {
     # Subset to those with 1+ positive tests who completed enrollment
     # This is a crude approximation
     testpos <- cleanlist$master[cleanlist$master$CloseReason %in% "Open",
-                                c("StudyId", "VisitDate")]
+                                c("StudyID", "EnrollDate")]
 
     # Use visit date as the date of record - the protocol allows some 
     # variability, but this ought to be close enough.
@@ -43,10 +43,10 @@ calc_fu <- function(cleanlist) {
         parts <- testpos
 
         # Mark the start of their follow-up period
-        parts$fu_start <- parts$VisitDate + months(fu.month) - days(14)
+        parts$fu_start <- parts$EnrollDate + months(fu.month) - days(14)
 
         # Mark the end of their follow-up period
-        parts$fu_end <- parts$VisitDate + months(fu.month) + days(30)
+        parts$fu_end <- parts$EnrollDate + months(fu.month) + days(30)
 
         # If today is inside those dates, they're eligible for FU
         parts$eligible <- Sys.Date() >= parts$fu_start &
@@ -66,7 +66,7 @@ calc_fu <- function(cleanlist) {
             cleanlist$followupfortb[VisitInterval %in% fu.month, ]
         )
 
-        parts$completed <- parts$StudyId %in% fu_complete$StudyId
+        parts$completed <- parts$StudyID %in% fu_complete$StudyID
 
 
 

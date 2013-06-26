@@ -20,20 +20,75 @@ convert <- function(renamed) {
 
 
     # Convert dates to Dates
+
+    # Preenrollment
     converted$preenrollment$VisitDate <- 
         as.Date(converted$preenrollment$VisitDate, format = "%m/%d/%Y")
 
+    converted$preenrollment$EnrollDate <- 
+        as.Date(converted$preenrollment$EnrollDate, format = "%m/%d/%Y")
+
+
+
+    # Master
     converted$master$BirthDate <- as.Date(converted$master$BirthDate, 
                                           format = "%m/%d/%Y")
 
-    converted$master$VisitDate <- as.Date(converted$master$VisitDate, 
+    converted$master$EnrollDate <- as.Date(converted$master$EnrollDate, 
+                                           format = "%m/%d/%Y")
+
+    # Medical history and risk factors
+    converted$medicalhistory$VisitDate <- 
+        as.Date(converted$medicalhistory$VisitDate, format = "%m/%d/%Y")
+
+    converted$riskfactor$VisitDate <- 
+        as.Date(converted$riskfactor$VisitDate, format = "%m/%d/%Y")
+
+
+    # TST, QFT, TSPOT enroll dates
+    converted$skintest$EnrollDate <- as.Date(converted$skintest$EnrollDate, 
+                                             format = "%m/%d/%Y")
+
+    converted$qft$EnrollDate <- as.Date(converted$qft$EnrollDate, 
+                                        format = "%m/%d/%Y")
+
+    converted$tspot$EnrollDate <- as.Date(converted$tspot$EnrollDate, 
                                           format = "%m/%d/%Y")
 
+
+    # LTBI treatment initiation
+    converted$ltbi$OfferDate <- as.Date(converted$ltbi$OfferDate, 
+                                        format = "%m/%d/%Y")
+
+    converted$ltbi$ScriptPickUpDate <- 
+        as.Date(converted$ltbi$ScriptPickUpDate, format = "%m/%d/%Y")
+
+    converted$ltbi$EnrollDate <- as.Date(converted$ltbi$EnrollDate, 
+                                         format = "%m/%d/%Y")
+
+
+
+    # LTBI Followups
     converted$ltbifollowup$VisitDate <- 
         as.Date(converted$ltbifollowup$VisitDate, format = "%m/%d/%Y")
 
     converted$ltbifollowup$NextFollowUpDate <- 
         as.Date(converted$ltbifollowup$NextFollowUpDate, format = "%m/%d/%Y")
+
+    converted$ltbifollowup$EnrollDate <- 
+        as.Date(converted$ltbifollowup$EnrollDate, format = "%m/%d/%Y")
+
+
+
+
+    # Semiannual followups
+    converted$followupfortb$VisitDate <- 
+        as.Date(converted$followupfortb$VisitDate, format = "%m/%d/%Y")
+
+    converted$followupfortb$EnrollDate <- 
+        as.Date(converted$followupfortb$EnrollDate, format = "%m/%d/%Y")
+
+
 
 
 

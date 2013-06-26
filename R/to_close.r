@@ -22,7 +22,7 @@
 to_close <- function(cleanlist) {
 
     # Get study IDs and status
-    parts <- cleanlist$master[ , c("StudyId", "CloseReason", "VisitDate")]
+    parts <- cleanlist$master[ , c("StudyID", "CloseReason", "EnrollDate")]
 
 
 
@@ -32,15 +32,15 @@ to_close <- function(cleanlist) {
 
     # Participants can have multiple tests, so I'll need to expand this
     # to accommodate that...
-    parts$tst_neg <- parts$StudyId %in% 
-        cleanlist$skintest$StudyId[cleanlist$skintest$result %in% "Negative"]
+    parts$tst_neg <- parts$StudyID %in% 
+        cleanlist$skintest$StudyID[cleanlist$skintest$result %in% "Negative"]
 
-    parts$qft_neg <- parts$StudyId %in% 
-        cleanlist$qft$StudyId[cleanlist$qft$result %in% 
+    parts$qft_neg <- parts$StudyID %in% 
+        cleanlist$qft$StudyID[cleanlist$qft$result %in% 
                               c("Negative", "Indeterminate")]
 
-    parts$tspot_neg <- parts$StudyId %in% 
-        cleanlist$tspot$StudyId[cleanlist$tspot$result %in% 
+    parts$tspot_neg <- parts$StudyID %in% 
+        cleanlist$tspot$StudyID[cleanlist$tspot$result %in% 
                                 c("Negative", "Borderline", "Invalid")]
 
     parts$trip_neg <- with(parts, tst_neg & qft_neg & tspot_neg)

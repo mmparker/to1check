@@ -11,7 +11,7 @@
 #'     \item assigns human-readable variable names
 #'     \item converts variables to appropriate data types (e.g., dates to Date)
 #'     \item recodes numeric variables with human-readable values
-#'     \item adds essential variables to tables (e.g., StudyId to all tables)
+#'     \item adds essential variables to tables (e.g., StudyID to all tables)
 #' }
 #' 
 #' 
@@ -105,16 +105,10 @@ clean_to1 <- function(extractfile) {
     # Recode variables as needed
     recoded <- recode(converted)
 
-    # Add StudyId to every table.  As a general rule, though, 
-    # StudyId is for display and PatientID remains the table key of record
-    # (because that's how the DB is set up)
-    mixed <- mix(recoded)
-
-
 
     # Create a final "cleaned" dataset (preserves a consistent name
     # if something comes in after mixed
-    to1clean <- mixed
+    to1clean <- recoded
 
 
     # Return the cleaned data

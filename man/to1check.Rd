@@ -14,7 +14,7 @@ can be broken down into three groups:}
   produce an R list of data.frames, each corresponding to a
   raw .csv file.  Those data.frames should generally have
   well-formated variables (character-coded instead of
-  numeric, dates are Dates, datetimes are POSIX, StudyId is
+  numeric, dates are Dates, datetimes are POSIX, StudyID is
   available on every table).
 
   \code{\link{clean_to1}} is the only function you need; it

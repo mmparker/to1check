@@ -53,14 +53,14 @@ gen_consent_checklist <- function(cleanlist,
 
     # In order to know which documents are required, we need to know the
     # participant's age and whether the interview was interpreted
-    ages <- cleanlist$preenrollment[ , c("StudyId", "AgeAtEnrollment")]
+    ages <- cleanlist$preenrollment[ , c("StudyID", "AgeAtEnrollment")]
 
     # I'm also using the questionnaire's visit date to exclude participants
-    langs <- cleanlist$master[cleanlist$master$VisitDate >= enroll_start &
-                             cleanlist$master$VisitDate <= enroll_end, 
-                             c("StudyId", "InterpreterNeeded", 
+    langs <- cleanlist$master[cleanlist$master$EnrollDate >= enroll_start &
+                             cleanlist$master$EnrollDate <= enroll_end, 
+                             c("StudyID", "InterpreterNeeded", 
                                "InterpreterLanguage", "InterpreterType",
-                               "VisitDate")
+                               "EnrollDate")
     ]
 
 
@@ -75,7 +75,7 @@ gen_consent_checklist <- function(cleanlist,
     # their questionnaires (and completed them during the timeframe of interest
     consentfacts <- merge(x = langs,
                           y = ages,
-                          by = "StudyId",
+                          by = "StudyID",
                           all.x = TRUE)
 
 
@@ -210,7 +210,7 @@ gen_consent_checklist <- function(cleanlist,
 
     # Throw the checklist wide into a grid
     checkgrid <- dcast(checkpts,
-        StudyId + VisitDate + interp.lang + 
+        StudyID + EnrollDate + interp.lang + 
         age_status + form + formlang ~ signer,
         value.var = "sig.needed")
 

@@ -8,7 +8,7 @@
 #' These functions take the raw .csv extracts from DMS and produce an R list of
 #' data.frames, each corresponding to a raw .csv file.  Those data.frames should
 #' generally have well-formated variables (character-coded instead of numeric,
-#' dates are Dates, datetimes are POSIX, StudyId is available on every table).
+#' dates are Dates, datetimes are POSIX, StudyID is available on every table).
 #' 
 #' \code{\link{clean_to1}} is the only function you need;
 #' it applies the others appropriately.
