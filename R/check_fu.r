@@ -28,7 +28,7 @@ check_fu <- function(cleanlist) {
     require(lubridate)
 
     # Calculate the eligibility period for each participant
-    fu.check <- cleanlist$followupfortb[ , c("StudyId", "EnrollDate",
+    fu.check <- cleanlist$followupfortb[ , c("StudyID", "EnrollDate",
                                              "VisitInterval", "VisitDate")]
 
 
