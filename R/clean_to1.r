@@ -11,7 +11,7 @@
 #'     \item assigns human-readable variable names
 #'     \item converts variables to appropriate data types (e.g., dates to Date)
 #'     \item recodes numeric variables with human-readable values
-#'     \item adds essential variables to tables (e.g., StudyId to all tables)
+#'     \item adds essential variables to tables (e.g., StudyID to all tables)
 #' }
 #' 
 #' 

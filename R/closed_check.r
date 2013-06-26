@@ -20,49 +20,49 @@
 closed_check <- function(cleanlist) {
 
     # Get study IDs and status
-    parts <- cleanlist$master[ , c("StudyId", "CloseReason", "EnrollDate")]
+    parts <- cleanlist$master[ , c("StudyID", "CloseReason", "EnrollDate")]
 
 
     # Get the most recent test of each type
     # Sort by ID and date, then take the first test for each ID
     sorted_tsts <- with(cleanlist, 
-                       skintest[order(skintest$StudyId, 
+                       skintest[order(skintest$StudyID, 
                                       skintest$dt_placed, 
                                       decreasing = TRUE), ]
     )
 
-    latest_tsts <- sorted_tsts[!duplicated(sorted_tsts[ , "StudyId"]), ]
+    latest_tsts <- sorted_tsts[!duplicated(sorted_tsts[ , "StudyID"]), ]
 
     sorted_qfts <- with(cleanlist, 
-                        qft[order(qft$StudyId, 
+                        qft[order(qft$StudyID, 
                                   qft$dt_placed, 
                                   decreasing = TRUE), ]
     )
 
-    latest_qfts <- sorted_qfts[!duplicated(sorted_qfts[ , "StudyId"]), ]
+    latest_qfts <- sorted_qfts[!duplicated(sorted_qfts[ , "StudyID"]), ]
 
     sorted_tspots <- with(cleanlist, 
-                          tspot[order(tspot$StudyId, 
+                          tspot[order(tspot$StudyID, 
                                       tspot$dt_placed, 
                                       decreasing = TRUE), ]
     )
 
-    latest_tspots <- sorted_tspots[!duplicated(sorted_tspots[ , "StudyId"]), ]
+    latest_tspots <- sorted_tspots[!duplicated(sorted_tspots[ , "StudyID"]), ]
 
 
     ########################################################################### 
     # Identify the triple-negatives
     ########################################################################### 
 
-    parts$tst_neg <- parts$StudyId %in% 
-        latest_tsts$StudyId[latest_tsts$result %in% "Negative"]
+    parts$tst_neg <- parts$StudyID %in% 
+        latest_tsts$StudyID[latest_tsts$result %in% "Negative"]
 
-    parts$qft_neg <- parts$StudyId %in% 
-        latest_qfts$StudyId[latest_qfts$result %in% 
+    parts$qft_neg <- parts$StudyID %in% 
+        latest_qfts$StudyID[latest_qfts$result %in% 
                               c("Negative", "Indeterminate")]
 
-    parts$tspot_neg <- parts$StudyId %in% 
-        latest_tspots$StudyId[latest_tspots$result %in% 
+    parts$tspot_neg <- parts$StudyID %in% 
+        latest_tspots$StudyID[latest_tspots$result %in% 
                                 c("Negative", "Borderline", "Invalid")]
 
     parts$trip_neg <- with(parts, tst_neg & qft_neg & tspot_neg)
@@ -79,19 +79,19 @@ closed_check <- function(cleanlist) {
 
     # Check for either an existing record with no result, or absence of a TST
     # record altogether
-    parts$tst_missing <- parts$StudyId %in% 
-        c(latest_tsts$StudyId[is.na(latest_tsts$result)],
-          parts$StudyId[!parts$StudyId %in% latest_tsts$StudyId])
+    parts$tst_missing <- parts$StudyID %in% 
+        c(latest_tsts$StudyID[is.na(latest_tsts$result)],
+          parts$StudyID[!parts$StudyID %in% latest_tsts$StudyID])
 
-    parts$qft_missing <- parts$StudyId %in% 
-        c(latest_qfts$StudyId[is.na(latest_qfts$result)],
-          parts$StudyId[!parts$StudyId %in% latest_qfts$StudyId])
+    parts$qft_missing <- parts$StudyID %in% 
+        c(latest_qfts$StudyID[is.na(latest_qfts$result)],
+          parts$StudyID[!parts$StudyID %in% latest_qfts$StudyID])
 
 
-    parts$tspot_missing <- parts$StudyId %in% 
-        c(latest_tspots$StudyId[is.na(latest_tspots$result)],
-          latest_tspots$StudyId[latest_tspots$result %in% "Test Not Performed"],
-          parts$StudyId[!parts$StudyId %in% latest_tspots$StudyId])
+    parts$tspot_missing <- parts$StudyID %in% 
+        c(latest_tspots$StudyID[is.na(latest_tspots$result)],
+          latest_tspots$StudyID[latest_tspots$result %in% "Test Not Performed"],
+          parts$StudyID[!parts$StudyID %in% latest_tspots$StudyID])
 
     parts$any_missing <- with(parts, tst_missing | qft_missing | tspot_missing)
 
@@ -119,7 +119,7 @@ closed_check <- function(cleanlist) {
     ########################################################################### 
 
     parts[!is.na(parts$close_problem), 
-          c("StudyId", "EnrollDate", "CloseReason", "close_problem")]
+          c("StudyID", "EnrollDate", "CloseReason", "close_problem")]
 
 
 }

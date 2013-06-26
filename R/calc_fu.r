@@ -26,7 +26,7 @@ calc_fu <- function(cleanlist) {
     # Subset to those with 1+ positive tests who completed enrollment
     # This is a crude approximation
     testpos <- cleanlist$master[cleanlist$master$CloseReason %in% "Open",
-                                c("StudyId", "EnrollDate")]
+                                c("StudyID", "EnrollDate")]
 
     # Use visit date as the date of record - the protocol allows some 
     # variability, but this ought to be close enough.
@@ -63,7 +63,7 @@ calc_fu <- function(cleanlist) {
             cleanlist$followupfortb[VisitInterval %in% fu.month, ]
         )
 
-        parts$completed <- parts$StudyId %in% fu_complete$StudyId
+        parts$completed <- parts$StudyID %in% fu_complete$StudyID
 
 
 

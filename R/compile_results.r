@@ -42,22 +42,22 @@ compile_results <- function(cleanlist) {
 
 
     # Select only the most recent test for each individual
-    tsts.sorted <- tsts[order(tsts$StudyId, tsts$dt_placed, 
+    tsts.sorted <- tsts[order(tsts$StudyID, tsts$dt_placed, 
                               decreasing = TRUE), ]
 
-    tsts.latest <- tsts.sorted[!duplicated(tsts.sorted$StudyId), ]
+    tsts.latest <- tsts.sorted[!duplicated(tsts.sorted$StudyID), ]
 
 
-    qfts.sorted <- qfts[order(qfts$StudyId, qfts$dt_placed, 
+    qfts.sorted <- qfts[order(qfts$StudyID, qfts$dt_placed, 
                               decreasing = TRUE), ]
 
-    qfts.latest <- qfts.sorted[!duplicated(qfts.sorted$StudyId), ]
+    qfts.latest <- qfts.sorted[!duplicated(qfts.sorted$StudyID), ]
 
 
-    tspots.sorted <- tspots[order(tspots$StudyId, tspots$dt_placed, 
+    tspots.sorted <- tspots[order(tspots$StudyID, tspots$dt_placed, 
                                   decreasing = TRUE), ]
 
-    tspots.latest <- tspots.sorted[!duplicated(tspots.sorted$StudyId), ]
+    tspots.latest <- tspots.sorted[!duplicated(tspots.sorted$StudyID), ]
 
 
     # Combine into one dataset
@@ -67,14 +67,14 @@ compile_results <- function(cleanlist) {
     tspots.latest$test <- "tspot"
 
     # Combine
-    tests <- rbind(tsts.latest[ , c("StudyId", "result", "test")],
-                   qfts.latest[ , c("StudyId", "result", "test")],
-                   tspots.latest[ , c("StudyId", "result", "test")]
+    tests <- rbind(tsts.latest[ , c("StudyID", "result", "test")],
+                   qfts.latest[ , c("StudyID", "result", "test")],
+                   tspots.latest[ , c("StudyID", "result", "test")]
     )
 
 
     # Cast wide
-    tests.wide <- dcast(tests, StudyId ~ test, value.var = "result")
+    tests.wide <- dcast(tests, StudyID ~ test, value.var = "result")
 
 
     # Add an indicator for any positive test
@@ -155,8 +155,8 @@ compile_results <- function(cleanlist) {
 
     # Add visit dates
     tests.dated <- merge(x = tests.wide,
-                         y = cleanlist$master[ , c("StudyId", "EnrollDate")],
-                         by = "StudyId",
+                         y = cleanlist$master[ , c("StudyID", "EnrollDate")],
+                         by = "StudyID",
                          all.x = TRUE
     )
 
