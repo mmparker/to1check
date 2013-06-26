@@ -30,6 +30,6 @@
   \item converts variables to appropriate data types (e.g.,
   dates to Date) \item recodes numeric variables with
   human-readable values \item adds essential variables to
-  tables (e.g., StudyId to all tables) }
+  tables (e.g., StudyID to all tables) }
 }
 
