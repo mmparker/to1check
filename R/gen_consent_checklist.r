@@ -56,11 +56,11 @@ gen_consent_checklist <- function(cleanlist,
     ages <- cleanlist$preenrollment[ , c("StudyId", "AgeAtEnrollment")]
 
     # I'm also using the questionnaire's visit date to exclude participants
-    langs <- cleanlist$master[cleanlist$master$VisitDate >= enroll_start &
-                             cleanlist$master$VisitDate <= enroll_end, 
+    langs <- cleanlist$master[cleanlist$master$EnrollDate >= enroll_start &
+                             cleanlist$master$EnrollDate <= enroll_end, 
                              c("StudyId", "InterpreterNeeded", 
                                "InterpreterLanguage", "InterpreterType",
-                               "VisitDate")
+                               "EnrollDate")
     ]
 
 
@@ -210,7 +210,7 @@ gen_consent_checklist <- function(cleanlist,
 
     # Throw the checklist wide into a grid
     checkgrid <- dcast(checkpts,
-        StudyId + VisitDate + interp.lang + 
+        StudyId + EnrollDate + interp.lang + 
         age_status + form + formlang ~ signer,
         value.var = "sig.needed")
 

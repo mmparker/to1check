@@ -155,7 +155,7 @@ compile_results <- function(cleanlist) {
 
     # Add visit dates
     tests.dated <- merge(x = tests.wide,
-                         y = cleanlist$master[ , c("StudyId", "VisitDate")],
+                         y = cleanlist$master[ , c("StudyId", "EnrollDate")],
                          by = "StudyId",
                          all.x = TRUE
     )

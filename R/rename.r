@@ -50,6 +50,9 @@ names(cleaned$ltbifollowup)[names(cleaned$ltbifollowup)
 names(cleaned$followupfortb)[names(cleaned$followupfortb) 
                              %in% "VisitDate.1"] <- "EnrollDate"
 
+# One exception: I'm going to call it EnrollDate on master, too,
+# since I use that so extensively. It'll get confusing as hell if I don't.
+names(cleaned$master)[names(cleaned$master) %in% "VisitDate"] <- "EnrollDate"
 
 
 ################################################################################

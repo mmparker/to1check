@@ -26,7 +26,7 @@ age_check <- function(cleanlist) {
     require(lubridate)
 
     # Get the ages
-    ages <- merge(x = cleanlist$preenrollment[ , c("StudyId", "VisitDate", 
+    ages <- merge(x = cleanlist$preenrollment[ , c("StudyId", "EnrollDate", 
                                                    "AgeAtEnrollment")],
                   y = cleanlist$master[ , c("StudyId", "BirthDate")],
                   by = "StudyId")
@@ -43,7 +43,7 @@ age_check <- function(cleanlist) {
 
     # Calculate age at enrollment
     ages$calc_age <- 
-        as.period(new_interval(ages$BirthDate, ages$VisitDate),
+        as.period(new_interval(ages$BirthDate, ages$EnrollDate),
                   unit = "year")$year
 
     ages$age_diff <- abs(ages$calc_age - ages$preenroll_age)
@@ -51,12 +51,12 @@ age_check <- function(cleanlist) {
 
     # Identify participants with different pre-enroll and questionnaire ages
     ages_out <- ages[which(ages$age_diff > 0),
-                     c("StudyId", "BirthDate", "VisitDate",
+                     c("StudyId", "BirthDate", "EnrollDate",
                       "preenroll_age", "calc_age", "age_diff")]
 
 
     # Sort by age difference and output
-    ages_out[order(ages_out$age_diff, ages_out$VisitDate, decreasing = TRUE), ]
+    ages_out[order(ages_out$age_diff, ages_out$EnrollDate, decreasing = TRUE), ]
 
 
 

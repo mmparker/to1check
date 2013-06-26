@@ -22,7 +22,7 @@
 to_close <- function(cleanlist) {
 
     # Get study IDs and status
-    parts <- cleanlist$master[ , c("StudyId", "CloseReason", "VisitDate")]
+    parts <- cleanlist$master[ , c("StudyId", "CloseReason", "EnrollDate")]
 
 
 

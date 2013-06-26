@@ -20,7 +20,7 @@
 closed_check <- function(cleanlist) {
 
     # Get study IDs and status
-    parts <- cleanlist$master[ , c("StudyId", "CloseReason", "VisitDate")]
+    parts <- cleanlist$master[ , c("StudyId", "CloseReason", "EnrollDate")]
 
 
     # Get the most recent test of each type
@@ -119,7 +119,7 @@ closed_check <- function(cleanlist) {
     ########################################################################### 
 
     parts[!is.na(parts$close_problem), 
-          c("StudyId", "VisitDate", "CloseReason", "close_problem")]
+          c("StudyId", "EnrollDate", "CloseReason", "close_problem")]
 
 
 }
