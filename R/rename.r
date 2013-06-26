@@ -20,6 +20,37 @@ rename <- function(originals) {
 
 
 
+################################################################################
+# Clarify the various VisitDate variables
+################################################################################
+
+# I think a good approach is to preserve VisitDate for the event in the table
+# so on followupfortb, VisitDate is the date of the follow-up; on skintest,
+# it's the date of the TST, and so on. VisitDate.1 and its ilk should be
+# renamed to "EnrollDate".
+
+names(cleaned$preenrollment)[names(cleaned$preenrollment) 
+                             %in% "VisitDate.1"] <- "EnrollDate"
+
+names(cleaned$skintest)[names(cleaned$skintest) 
+                        %in% "VisitDate"] <- "EnrollDate"
+
+names(cleaned$qft)[names(cleaned$qft) 
+                   %in% "VisitDate"] <- "EnrollDate"
+
+names(cleaned$tspot)[names(cleaned$tspot) 
+                     %in% "VisitDate"] <- "EnrollDate"
+
+names(cleaned$ltbi)[names(cleaned$ltbi) 
+                    %in% "VisitDate"] <- "EnrollDate"
+
+names(cleaned$ltbifollowup)[names(cleaned$ltbifollowup) 
+                            %in% "VisitDate.1"] <- "EnrollDate"
+
+names(cleaned$followupfortb)[names(cleaned$followupfortb) 
+                             %in% "VisitDate.1"] <- "EnrollDate"
+
+
 
 ################################################################################
 # Rename TST variables
