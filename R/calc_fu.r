@@ -43,10 +43,10 @@ calc_fu <- function(cleanlist) {
         parts <- testpos
 
         # Mark the start of their follow-up period
-        parts$fu_start <- parts$EnrollDate + months(fu.month) - days(14)
+        parts$fu_start <- parts$EnrollDate %m+% months(fu.month) - days(14)
 
         # Mark the end of their follow-up period
-        parts$fu_end <- parts$EnrollDate + months(fu.month) + days(30)
+        parts$fu_end <- parts$EnrollDate %m+% months(fu.month) + days(30)
 
         # If today is inside those dates, they're eligible for FU
         parts$eligible <- Sys.Date() >= parts$fu_start &
