@@ -119,21 +119,22 @@ compile_results <- function(cleanlist) {
         result_class[is.na(result_class) &
                    tst %in% "Negative" &
                    qft %in% "Positive" &
-                   tspot %in% "Positive"] <- "Isolated TST-"
+                   tspot %in% "Positive"] <- "Dual Pos, QFT and TSPOT"
     )
 
     tests.wide <- within(tests.wide,
         result_class[is.na(result_class) &
                   tst %in% "Positive" &
                   qft %in% "Positive" &
-                  tspot %in% c("Negative", "Borderline")] <- "Isolated TSPOT-"
+                  tspot %in% c("Negative", 
+                               "Borderline")] <- "Dual Pos, TST and QFT"
     )
 
     tests.wide <- within(tests.wide,
         result_class[is.na(result_class) &
                    tst %in% "Positive" &
                    qft %in% "Negative" &
-                   tspot %in% "Positive"] <- "Isolated QFT-"
+                   tspot %in% "Positive"] <- "Dual Pos, TST and TSPOT"
     )
 
     tests.wide <- within(tests.wide,
