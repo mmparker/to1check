@@ -2,8 +2,10 @@
 
 #' Check that triple-negative individuals are closed to follow-up.
 #' 
-#' This function checks that individuals who had negative TST, QFT, and TSPOT
-#' were closed.
+#' This function checks that individuals who have had only negative TST, QFT, 
+#' and TSPOT results have been closed. Individuals with multiple results for
+#' each test must have all negative results to be included. Indeterminate,
+#' borderline, and invalid results are considered negative (for now).
 #' 
 #' @return
 #' This function returns a data.frame of participants who are negative

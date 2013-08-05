@@ -15,8 +15,12 @@
   status, visit date, and test result indicators.
 }
 \description{
-  This function checks that individuals who had negative
-  TST, QFT, and TSPOT were closed.
+  This function checks that individuals who have had only
+  negative TST, QFT, and TSPOT results have been closed.
+  Individuals with multiple results for each test must have
+  all negative results to be included. Indeterminate,
+  borderline, and invalid results are considered negative
+  (for now).
 }
 \seealso{
   \code{\link{closed_check}} for participants who were
