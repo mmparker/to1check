@@ -30,20 +30,41 @@ to_close <- function(cleanlist) {
     # Identify the triple-negatives
     ########################################################################### 
 
-    # Participants can have multiple tests, so I'll need to expand this
-    # to accommodate that...
+    # They have to be TST-
     parts$tst_neg <- parts$StudyID %in% 
         cleanlist$skintest$StudyID[cleanlist$skintest$result %in% "Negative"]
 
+    # And not TST+ (have to use this approach in case people have multiple tests
+    parts$tst_pos <- parts$StudyID %in% 
+        cleanlist$skintest$StudyID[cleanlist$skintest$result %in% "Positive"]
+
+
+    # Same with the IGRAs
     parts$qft_neg <- parts$StudyID %in% 
         cleanlist$qft$StudyID[cleanlist$qft$result %in% 
                               c("Negative", "Indeterminate")]
+
+    parts$qft_pos <- parts$StudyID %in% 
+        cleanlist$qft$StudyID[cleanlist$qft$result %in% "Positive"]
+
+
 
     parts$tspot_neg <- parts$StudyID %in% 
         cleanlist$tspot$StudyID[cleanlist$tspot$result %in% 
                                 c("Negative", "Borderline", "Invalid")]
 
-    parts$trip_neg <- with(parts, tst_neg & qft_neg & tspot_neg)
+    parts$tspot_pos <- parts$StudyID %in% 
+        cleanlist$tspot$StudyID[cleanlist$tspot$result %in% "Positive"]
+
+
+
+    # Identify the triple-negatives (at least a negative on everything,
+    # no positives)
+    parts$trip_neg <- with(parts,
+                           (tst_neg & qft_neg & tspot_neg) &
+                           (!tst_pos & !qft_pos & !tspot_pos)
+    )
+                   
 
 
 
@@ -51,7 +72,9 @@ to_close <- function(cleanlist) {
     # Return any triple-negative participants who aren't closed
     ########################################################################### 
 
-    parts[parts$trip_neg %in% TRUE & parts$CloseReason %in% "Open", ]
+    parts[parts$trip_neg %in% TRUE & parts$CloseReason %in% "Open", 
+          c("StudyID", "CloseReason", "EnrollDate", 
+            "tst_neg", "qft_neg", "tspot_neg", "trip_neg")]
 
 
 }
