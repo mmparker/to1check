@@ -23,7 +23,6 @@
 
 calc_fu <- function(cleanlist) {
 
-    require(lubridate)
     require(plyr)
 
     # Subset to those with 1+ positive tests who completed enrollment
@@ -43,9 +42,15 @@ calc_fu <- function(cleanlist) {
         parts <- testpos
 
         # Mark the start of their follow-up period
-        parts$fu_start <- parts$EnrollDate %m+% months(fu.month) - days(14)
+        # Enrollment date plus two days (to approximate date of TST reading)
+        # This follow-up's number of months, with a standard 30-day month
+        # Less 14 days for the front edge of the FU window.
+        parts$fu_start <- (parts$EnrollDate + 2) + (fu.month * 30) - 14
 
         # Mark the end of their follow-up period
+        # Enrollment date plus two days (to approximate date of TST reading)
+        # This follow-up's number of months, with a standard 30-day month
+        # Plus 30 days for the rear edge of the FU window.
         parts$fu_end <- parts$EnrollDate %m+% months(fu.month) + days(30)
 
         # If today is inside those dates, they're eligible for FU

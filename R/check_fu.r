@@ -25,8 +25,6 @@
 
 check_fu <- function(cleanlist) {
 
-    require(lubridate)
-
     # Calculate the eligibility period for each participant
     fu.check <- cleanlist$followupfortb[ , c("StudyID", "EnrollDate",
                                              "VisitInterval", "VisitDate")]
@@ -38,12 +36,19 @@ check_fu <- function(cleanlist) {
 
 
     # Calculate the period start and end
+    # Enrollment date plus two days (to approximate date of TST reading)
+    # This follow-up's number of months, with a standard 30-day month
+    # Less 14 days for the front edge of the FU window.
     fu.check$period.start <- with(fu.check, 
-                                  EnrollDate %m+% months(VisitInterval) - 14
+        (EnrollDate + 2) + (VisitInterval * 30) - 14
     )
 
+
+    # Enrollment date plus two days (to approximate date of TST reading)
+    # This follow-up's number of months, with a standard 30-day month
+    # Plus 30 days for the rear edge of the FU window.
     fu.check$period.end <- with(fu.check, 
-                                EnrollDate %m+% months(VisitInterval) + 30
+        (EnrollDate + 2) + (VisitInterval * 30) + 30
     )
 
 
