@@ -19,59 +19,32 @@
 
 closed_check <- function(cleanlist) {
 
-    # Get study IDs and status
-    parts <- cleanlist$master[ , c("StudyID", "CloseReason", "EnrollDate")]
+    # Get study IDs and status of the triple-negatives
+    closed <- cleanlist$master[cleanlist$master$ParticipantStatus %in% 
+                                   "Closed",
+                               c("StudyID", "CloseReason", "EnrollDate")]
 
 
-    # Get the most recent test of each type
-    # Sort by ID and date, then take the first test for each ID
-    sorted_tsts <- with(cleanlist, 
-                       skintest[order(skintest$StudyID, 
-                                      skintest$dt_placed, 
-                                      decreasing = TRUE), ]
-    )
-
-    latest_tsts <- sorted_tsts[!duplicated(sorted_tsts[ , "StudyID"]), ]
-
-    sorted_qfts <- with(cleanlist, 
-                        qft[order(qft$StudyID, 
-                                  qft$dt_placed, 
-                                  decreasing = TRUE), ]
-    )
-
-    latest_qfts <- sorted_qfts[!duplicated(sorted_qfts[ , "StudyID"]), ]
-
-    sorted_tspots <- with(cleanlist, 
-                          tspot[order(tspot$StudyID, 
-                                      tspot$dt_placed, 
-                                      decreasing = TRUE), ]
-    )
-
-    latest_tspots <- sorted_tspots[!duplicated(sorted_tspots[ , "StudyID"]), ]
+    # Identify those with any positive TST
+    closed$tst_pos <- closed$StudyID %in% 
+        cleanlist$skintest$StudyID[cleanlist$skintest$result %in% "Positive"]
 
 
-    ########################################################################### 
-    # Identify the triple-negatives
-    ########################################################################### 
-
-    parts$tst_neg <- parts$StudyID %in% 
-        latest_tsts$StudyID[latest_tsts$result %in% "Negative"]
-
-    parts$qft_neg <- parts$StudyID %in% 
-        latest_qfts$StudyID[latest_qfts$result %in% 
-                              c("Negative", "Indeterminate")]
-
-    parts$tspot_neg <- parts$StudyID %in% 
-        latest_tspots$StudyID[latest_tspots$result %in% 
-                                c("Negative", "Borderline", "Invalid")]
-
-    parts$trip_neg <- with(parts, tst_neg & qft_neg & tspot_neg)
+    # Identify those with any positive QFT
+    closed$qft_pos <- closed$StudyID %in% 
+        cleanlist$qft$StudyID[cleanlist$qft$result %in% "Positive"]
 
 
-    # Identify those who were closed as triple-negative but weren't
-    parts$not_trip_neg <- with(parts, 
-                               CloseReason %in% 'Triple Negative' &
-                               trip_neg %in% FALSE)
+    # Identify those with any positive TSPOT
+    closed$tspot_pos <- closed$StudyID %in% 
+        cleanlist$tspot$StudyID[cleanlist$tspot$result %in% "Positive"]
+
+
+    # Flag those with any positive test
+    closed$problem[closed$CloseReason %in% "Triple Negative" &
+        (closed$tst_pos | closed$qft_pos | closed$tspot_pos)] <- 
+            "1 or more positive tests"
+
 
     ########################################################################### 
     # Identify individuals with missing results
@@ -79,47 +52,34 @@ closed_check <- function(cleanlist) {
 
     # Check for either an existing record with no result, or absence of a TST
     # record altogether
-    parts$tst_missing <- parts$StudyID %in% 
-        c(latest_tsts$StudyID[is.na(latest_tsts$result)],
-          parts$StudyID[!parts$StudyID %in% latest_tsts$StudyID])
+    closed$tst_missing <- closed$StudyID %in% 
+        c(cleanlist$skintest$StudyID[is.na(cleanlist$skintest$result)],
+          closed$StudyID[!closed$StudyID %in% cleanlist$skintest$StudyID])
 
-    parts$qft_missing <- parts$StudyID %in% 
-        c(latest_qfts$StudyID[is.na(latest_qfts$result)],
-          parts$StudyID[!parts$StudyID %in% latest_qfts$StudyID])
+    closed$qft_missing <- closed$StudyID %in% 
+        c(cleanlist$qft$StudyID[is.na(cleanlist$qft$result)],
+          closed$StudyID[!closed$StudyID %in% cleanlist$qft$StudyID])
 
 
-    parts$tspot_missing <- parts$StudyID %in% 
-        c(latest_tspots$StudyID[is.na(latest_tspots$result)],
-          latest_tspots$StudyID[latest_tspots$result %in% "Test Not Performed"],
-          parts$StudyID[!parts$StudyID %in% latest_tspots$StudyID])
-
-    parts$any_missing <- with(parts, tst_missing | qft_missing | tspot_missing)
+    closed$tspot_missing <- closed$StudyID %in% 
+       c(cleanlist$tspot$StudyID[is.na(cleanlist$tspot$result)],
+        closed$StudyID[!closed$StudyID %in% cleanlist$tspot$StudyID])
 
 
     # Identify those who were closed without all results in
-    parts$missing_results <- with(parts, 
-                                  CloseReason %in% 'Triple Negative' &
-                                  any_missing %in% TRUE)
+    closed$problem[closed$CloseReason %in% "Triple Negative" &
+        (closed$tst_missing | closed$qft_missing | closed$tspot_missing)] <-
+            "Missing test result"
 
 
-
-    ########################################################################### 
-    # Provide a nicely-labeled indicator of reason for incorrect closing
-    ########################################################################### 
-
-    parts$close_problem <- NA
-
-    parts$close_problem[parts$not_trip_neg] <- "Not Triple-Negative"
-
-    parts$close_problem[parts$missing_results] <- "Missing Test Result"
 
 
     ########################################################################### 
     # Return any participants closed for the incorrect reason
     ########################################################################### 
 
-    parts[!is.na(parts$close_problem), 
-          c("StudyID", "EnrollDate", "CloseReason", "close_problem")]
+    closed[!is.na(closed$problem), 
+          c("StudyID", "EnrollDate", "CloseReason", "problem")]
 
 
 }
