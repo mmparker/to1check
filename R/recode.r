@@ -77,6 +77,12 @@ recode <- function(converted) {
     recoded$tspot$panel_a.num <- resultToNumeric(recoded$tspot$panel_a)
     recoded$tspot$panel_b.num <- resultToNumeric(recoded$tspot$panel_b)
 
+    # Calculate TB - Nil for TSPOT
+    recoded$tspot$tbnil.a <- recoded$tspot$panel_a.num - recoded$tspot$nil.num
+    recoded$tspot$tbnil.b <- recoded$tspot$panel_b.num - recoded$tspot$nil.num
+    recoded$tspot$tbnil.max <- pmax(recoded$tspot$tbnil.a,
+                                    recoded$tspot$tbnil.b)
+
 
 
 
