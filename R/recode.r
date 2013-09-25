@@ -140,6 +140,28 @@ recode <- function(converted) {
 
 
 
+
+    ############################################################################
+    # Recode BCG status
+    ############################################################################
+
+    recoded$medicalhistory$BcgVaccine[recoded$medicalhistory$BcgVaccine 
+                                      %in% 1] <- "Yes"
+
+    recoded$medicalhistory$BcgVaccine[recoded$medicalhistory$BcgVaccine 
+                                      %in% 0] <- "No"
+
+    recoded$medicalhistory$BcgVaccine[recoded$medicalhistory$BcgVaccine 
+                                      %in% 99] <- "Don't Know/Refused"
+
+
+
+
+
+    ############################################################################
+    # Return the recoded results
+    ############################################################################
+
     recoded
 
 }
