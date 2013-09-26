@@ -160,6 +160,22 @@ names(cleaned$tspot)[names(originals$tspot)
 
 
 
+
+
+################################################################################
+# Rename TSPOT variables
+################################################################################
+
+# Mislabeled drug variables
+names(cleaned$ltbi)[names(cleaned$ltbi) %in% "LT_4a_Freq"] <- "IsoniazidFreq"
+
+names(cleaned$ltbi)[names(cleaned$ltbi) %in% "LT_4b_Freq_Other"] <- 
+    "RifampinFreqSpecify"
+
+
+
+
+
 # Renaming check
 # data.frame(old = names(originals$tspot),
 #           new = names(cleaned$tspot))
