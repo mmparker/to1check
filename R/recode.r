@@ -157,6 +157,99 @@ recode <- function(converted) {
 
 
 
+    ############################################################################
+    # Treatment plan variables
+    ############################################################################
+
+
+    # Offer, Accept, Complete to logical
+    recoded$ltbi$OfferTreatment <- as.logical(recoded$ltbi$OfferTreatment)
+    recoded$ltbi$AcceptTreatment <- as.logical(recoded$ltbi$AcceptTreatment)
+    recoded$ltbi$TreatmentComplete <- as.logical(recoded$ltbi$TreatmentComplete)
+
+    # Reason not completed
+    recoded$ltbi$ReasonNotComplete <- 
+        as.character(factor(recoded$ltbi$ReasonNotComplete,
+                            levels = 1:8,
+                            labels = c("Lost to follow-up",
+                                       "Refused",
+                                       "Moved",
+                                       "Diagnosed with active TB",
+                                       "Side effects of treatment",
+                                       "Pregnancy",
+                                       "Died",
+                                       "Other")
+                     )
+    )
+
+
+
+    # Drug flag to logical
+    recoded$ltbi$Isoniazid <- !is.na(recoded$ltbi$Isoniazid)
+    recoded$ltbi$Rifampin <- !is.na(recoded$ltbi$Rifampin)
+    recoded$ltbi$Rifapentine <- !is.na(recoded$ltbi$Rifapentine)
+    recoded$ltbi$Other <- !is.na(recoded$ltbi$Other)
+
+
+
+    # Convert dose frequency variables
+    freq.recode <- function(x) { 
+        as.character(factor(x,
+                            levels = 1:5,
+                            labels = c("Daily", 
+                                       "1 x week", 
+                                       "2 x week", 
+                                       "3 x week", 
+                                       "Other")
+                     )
+        )
+    }
+
+    recoded$ltbi$IsoniazidFreq <- freq.recode(recoded$ltbi$IsoniazidFreq)
+    recoded$ltbi$RifampinFreq <- freq.recode(recoded$ltbi$RifampinFreq)
+    recoded$ltbi$RifapentineFreq <- freq.recode(recoded$ltbi$RifapentineFreq)
+    recoded$ltbi$OtherFreq <- freq.recode(recoded$ltbi$OtherFreq)
+
+
+    # Classify treatment plans
+    recoded$ltbi$plan[recoded$ltbi$AcceptTreatment] <- "Unknown"
+
+    # Daily INH
+    recoded$ltbi$plan[recoded$ltbi$Isoniazid &
+                      !recoded$ltbi$Rifampin &
+                      !recoded$ltbi$Rifapentine &
+                      !recoded$ltbi$Other &
+                      recoded$ltbi$IsoniazidFreq %in% "Daily"] <- "Daily INH"
+
+    recoded$ltbi$plan[!recoded$ltbi$Isoniazid &
+                      recoded$ltbi$Rifampin &
+                      !recoded$ltbi$Rifapentine &
+                      !recoded$ltbi$Other &
+                      recoded$ltbi$RifampinFreq %in% "Daily"] <- "Daily RIF"
+
+    recoded$ltbi$plan[recoded$ltbi$Isoniazid &
+                      !recoded$ltbi$Rifampin &
+                      recoded$ltbi$Rifapentine &
+                      !recoded$ltbi$Other &
+                      recoded$ltbi$IsoniazidFreq %in% "1 x week" &
+                      recoded$ltbi$RifapentineFreq %in% "1 x week"] <- 
+                          "Weekly INH/Rifapentine"
+
+    recoded$ltbi$plan[recoded$ltbi$Isoniazid &
+                      !recoded$ltbi$Rifampin &
+                      !recoded$ltbi$Rifapentine &
+                      !recoded$ltbi$Other &
+                      recoded$ltbi$IsoniazidFreq %in% "2 x week"] <- 
+                          "Twice-weekly INH"
+
+
+#    count(recoded$ltbi[c("Isoniazid", "IsoniazidFreq",
+#                         "Rifampin", "RifampinFreq",
+#                         "Rifapentine", "RifapentineFreq",
+#                         "Other", "OtherFreq",
+#                         "plan")])
+
+
 
     ############################################################################
     # Return the recoded results
