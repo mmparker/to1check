@@ -27,9 +27,9 @@
   extreme observations.  \item A table of participants
   missing either height or weight }
 
-  "Most extreme" is crudely defined as those points that
-  are the furthest from their nearest neighbor. This isn't
-  intended as formal outlier detection; it's just a quick
-  way to label outlying points.
+  "Most extreme" is currently defined by fitting a linear
+  model (\code{lm(log(Weight) ~ Height}) and flagging
+  participants whose weights fall outside the 99.9%
+  prediction interval.
 }
 

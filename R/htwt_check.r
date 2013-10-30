@@ -13,9 +13,9 @@
 #'   \item A table of participants missing either height or weight
 #' }
 #' 
-#' "Most extreme" is crudely defined as those points that are the furthest
-#' from their nearest neighbor. This isn't intended as formal outlier detection;
-#' it's just a quick way to label outlying points.
+#' "Most extreme" is currently defined by fitting a linear model
+#' (\code{lm(log(Weight) ~ Height}) and flagging participants whose weights
+#' fall outside the 99.9% prediction interval.
 #' 
 #' 
 #' @return
@@ -39,45 +39,43 @@
 
 
 htwt_check <- function(cleanlist) {
-    
+
     # Ensure that these variables are defined within the function's environment
-    HeightInch <- WeightPound <- NULL
+    HeightInch <- WeightPound <- outlier <- lwr <- upr <- NULL
 
     require(ggplot2)
 
     # Extract the height and weight data
     htwt <- cleanlist$medicalhistory[ , c("StudyID", 
-                                          "HeightInch", "HeightInchIdk",
+                                          "HeightInch", "HeightInchIdk", 
                                           "WeightPound", "WeightPoundIdk")]
 
-    # Calculate the distance matrix of all the points
-    # Normalized ht/wt? Mahalanobis? Maybe later.
-    distmat <- as.matrix(dist(htwt[ , c("HeightInch", "WeightPound")]))
 
-    # Identify the minimum distance from each point to its nearest neighbor
-    htwt$mindist <- apply(distmat, 1, function(x) {
-                          min(x[x > 0], na.rm = TRUE)
-                   }
+    # Fit a model to the heights and weights
+    htwt.mod <- lm(log(WeightPound) ~ HeightInch,
+                   data = htwt)
+
+    htwt.pred <- data.frame(
+        na.omit(htwt[c("StudyID", "HeightInch", "WeightPound")]),
+        predict(htwt.mod, interval = "prediction", level = 0.999)
     )
 
-    # When min gets all NAs as input, it returns Inf - but that will screw up
-    # the quantile calculation below, so I'm converting it to NA
-    htwt$mindist[htwt$mindist == Inf] <- NA
+
+    # Flag anyone whose weight falls outside the prediction interval
+    htwt.pred$outlier <- with(htwt.pred,
+        WeightPound < exp(lwr) |
+        WeightPound > exp(upr)
+    )
+
+    htwt.pred$label <- ifelse(htwt.pred$outlier,
+                              yes = htwt.pred$StudyID,
+                              no = NA)
 
 
-    # Reorder the data by descending mindist
-    htwt <- htwt[order(htwt$mindist, decreasing = TRUE), ]
 
 
-    # Set up a label variable that is NA except for the participants with the
-    # most-distant points
-    htwt$label <- htwt$StudyID
 
-    # Less than the 98th percentile?  No label.
-    htwt$label[htwt$mindist < quantile(htwt$mindist, .99, na.rm = TRUE)] <- NA
 
-    # No calculated distance?  No label.
-    htwt$label[is.na(htwt$mindist)] <- NA
 
 
     # Set up the output list
@@ -86,17 +84,27 @@ htwt_check <- function(cleanlist) {
 
 
     # Create the plot
-    output$plot <- ggplot(htwt, aes(x = HeightInch, y = WeightPound)) +
-                       geom_point(color = "#43A2CA") +
+    output$plot <- ggplot(htwt.pred, aes(x = HeightInch, y = WeightPound)) +
+                       geom_point(aes(color = outlier), alpha = 0.7) +
+                       geom_ribbon(aes(ymin = exp(lwr), ymax = exp(upr)), 
+                                   alpha = 0.05,
+                                   color = "#43A2CA") +
                        geom_text(aes(label = label), size = 4, hjust = -0.05) +
+                       coord_cartesian(ylim = c(0, 
+                                       max(htwt.pred$WeightPound) * 1.1)) + 
                        labs(x = "Height (inches)", y = "Weight (pounds)") +
+                       scale_color_manual(values = c("#43A2CA", "red"),
+                                          guide = FALSE) +
                        scale_x_continuous(expand = c(.2, 1)) +
-                       scale_y_continuous(expand = c(.2, 1))
+                       scale_y_continuous(expand = c(.2, 1)) +
+                       theme_bw()
+
 
 
     # Create the table of outliers
-    output$outlierdf <- htwt[!is.na(htwt$label),
-                             c("StudyID", "HeightInch", "WeightPound")]
+    output$outlierdf <- htwt.pred[htwt.pred$outlier,
+                                  c("StudyID", "HeightInch", "WeightPound")]
+
 
     # Create the table of participants with missing height or weight
     # To be truly missing, both the measure and its "I Don't Know" indicator
