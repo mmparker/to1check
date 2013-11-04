@@ -167,6 +167,21 @@ recode <- function(converted) {
     recoded$ltbi$AcceptTreatment <- as.logical(recoded$ltbi$AcceptTreatment)
     recoded$ltbi$TreatmentComplete <- as.logical(recoded$ltbi$TreatmentComplete)
 
+
+    # Treatment Administration Type
+    recoded$ltbi$TreatmentAdmin[recoded$ltbi$TreatmentAdmin 
+        %in% 1] <- "DOPT"
+
+    recoded$ltbi$TreatmentAdmin[recoded$ltbi$TreatmentAdmin 
+       %in% 2] <- "Self-administered"
+
+    recoded$ltbi$TreatmentAdmin[recoded$ltbi$TreatmentAdmin 
+        %in% 3] <- "Combination of DOPT and self-administered"
+
+    recoded$ltbi$TreatmentAdmin[recoded$ltbi$TreatmentAdmin 
+        %in% 4] <- "Unknown"
+
+
     # Reason not completed
     recoded$ltbi$ReasonNotComplete <- 
         as.character(factor(recoded$ltbi$ReasonNotComplete,
