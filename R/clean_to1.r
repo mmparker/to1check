@@ -100,10 +100,10 @@ clean_to1 <- function(extractfile) {
     renamed <- to1check:::rename(originals)
 
     # Convert variables to the correct type - e.g., char datetimes to POSIXct
-    converted <- convert(renamed)
+    converted <- to1check:::convert(renamed)
 
     # Recode variables as needed
-    recoded <- recode(converted)
+    recoded <- to1check:::recode(converted)
 
 
     # Create a final "cleaned" dataset (preserves a consistent name
