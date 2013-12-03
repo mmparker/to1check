@@ -35,3 +35,4 @@ Collate:
     'country_codes.r'
     'to_close.r'
     'check_fu.r'
+    'summarize_tx.r'
