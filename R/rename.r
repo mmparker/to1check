@@ -76,6 +76,9 @@ names(cleaned$skintest)[names(originals$skintest)
 names(cleaned$skintest)[names(originals$skintest) 
                           %in% "TstInterpretation"] <- "result"
 
+names(cleaned$skintest)[names(originals$skintest) 
+                          %in% "SubmitDateTime"] <- "date_submitted"
+
 
 # Renaming check
 data.frame(old = names(originals$skintest),
@@ -127,6 +130,9 @@ names(cleaned$qft)[names(originals$qft)
 names(cleaned$qft)[names(originals$qft) 
                           %in% "MitogenNil2"] <- "rerun_mitnil"
 
+names(cleaned$qft)[names(originals$qft) 
+                          %in% "SubmitDateTime"] <- "date_submitted"
+
 
 # Renaming check
 data.frame(old = names(originals$qft),
@@ -158,6 +164,11 @@ names(cleaned$tspot)[names(originals$tspot)
 names(cleaned$tspot)[names(originals$tspot) 
                           %in% "PanelB"] <- "panel_b"
 
+names(cleaned$tspot)[names(originals$tspot) 
+                          %in% "TSPOT_Report_Date"] <- "report_date"
+
+names(cleaned$tspot)[names(originals$tspot) 
+                          %in% "SubmitDateTime"] <- "date_submitted"
 
 
 

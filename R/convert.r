@@ -56,6 +56,22 @@ convert <- function(renamed) {
                                           format = "%m/%d/%Y")
 
 
+    # TST, QFT, TSPOT DMS submission dates
+    converted$skintest$date_submitted <- 
+        as.Date(converted$skintest$date_submitted, 
+                format = "%m/%d/%Y")
+
+    converted$qft$date_submitted <- 
+        as.Date(converted$qft$date_submitted, 
+                format = "%m/%d/%Y")
+
+
+    converted$tspot$date_submitted <- 
+        as.Date(converted$tspot$date_submitted, 
+                format = "%m/%d/%Y")
+
+
+
     # LTBI treatment initiation
     converted$ltbi$OfferDate <- as.Date(converted$ltbi$OfferDate, 
                                         format = "%m/%d/%Y")
