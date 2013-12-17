@@ -41,7 +41,7 @@ summarize_tx <- function(cleanlist) {
 
     # Flag participants who have had enough time to complete tx,
     # using the CDC's guidelines
-    ltbi.base$enough_time <- NA
+    ltbi.base$enough_time <- FALSE
 
     # 9 months INH: 52 weeks
     ltbi.base$enough_time[ltbi.base$AcceptTreatment &
