@@ -173,8 +173,11 @@ compile_results <- function(cleanlist) {
         result_class[is.na(result_class) & (
                    tst %in% NA |
                    qft %in% c(NA, "Indeterminate") |
-                   tspot %in% c(NA, "Test Not Performed",
-                                "Indeterminate", "Failed"))] <- "Inconclusive"
+                   tspot %in% c(NA, 
+                                "Test Not Performed",
+                                "Indeterminate", 
+                                "Failed",
+                                "Invalid"))] <- "Inconclusive"
     )
 
 
