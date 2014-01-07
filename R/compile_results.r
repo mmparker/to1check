@@ -89,21 +89,21 @@ compile_results <- function(cleanlist) {
         result_class[is.na(result_class) &
                    tst %in% "Negative" &
                    qft %in% "Negative" &
-                   tspot %in% c("Negative", "Borderline")] <- "Triple Negative"
+                   tspot %in% "Negative"] <- "Triple Negative"
     )
 
     tests.wide <- within(tests.wide,
         result_class[is.na(result_class) &
                    tst %in% "Positive" &
                    qft %in% "Negative" &
-                   tspot %in% c("Negative", "Borderline")] <- "Isolated TST+"
+                   tspot %in% "Negative"] <- "Isolated TST+"
     )
 
     tests.wide <- within(tests.wide,
         result_class[is.na(result_class) &
                    tst %in% "Negative" &
                    qft %in% "Positive" &
-                   tspot %in% c("Negative", "Borderline")] <- "Isolated QFT+"
+                   tspot %in% "Negative"] <- "Isolated QFT+"
     )
 
     tests.wide <- within(tests.wide,
@@ -124,8 +124,7 @@ compile_results <- function(cleanlist) {
         result_class[is.na(result_class) &
                   tst %in% "Positive" &
                   qft %in% "Positive" &
-                  tspot %in% c("Negative", 
-                               "Borderline")] <- "Dual Pos, TST and QFT"
+                  tspot %in% "Negative"] <- "Dual Pos, TST and QFT"
     )
 
     tests.wide <- within(tests.wide,
@@ -140,6 +139,34 @@ compile_results <- function(cleanlist) {
                    tst %in% "Positive" &
                    qft %in% "Positive" &
                    tspot %in% "Positive"] <- "Triple Positive"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                   tst %in% "Negative" &
+                   qft %in% "Negative" &
+                   tspot %in% "Borderline"] <- "TST-, QFT-, Borderline TSPOT"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                   tst %in% "Positive" &
+                   qft %in% "Negative" &
+                   tspot %in% "Borderline"] <- "TST+, QFT-, Borderline TSPOT"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                   tst %in% "Negative" &
+                   qft %in% "Positive" &
+                   tspot %in% "Borderline"] <- "TST-, QFT+, Borderline TSPOT"
+    )
+
+    tests.wide <- within(tests.wide,
+        result_class[is.na(result_class) &
+                   tst %in% "Positive" &
+                   qft %in% "Positive" &
+                   tspot %in% "Borderline"] <- "TST+, QFT+, Borderline TSPOT"
     )
 
     tests.wide <- within(tests.wide,
