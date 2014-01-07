@@ -34,9 +34,6 @@ names(cleaned$master)[names(cleaned$master) %in% "StudyId"] <- "StudyID"
 # it's the date of the TST, and so on. VisitDate.1 and its ilk should be
 # renamed to "EnrollDate".
 
-names(cleaned$preenrollment)[names(cleaned$preenrollment) 
-                             %in% "VisitDate.1"] <- "EnrollDate"
-
 names(cleaned$skintest)[names(cleaned$skintest) 
                         %in% "VisitDate"] <- "EnrollDate"
 

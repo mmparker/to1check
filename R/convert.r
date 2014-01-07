@@ -25,10 +25,6 @@ convert <- function(renamed) {
     converted$preenrollment$VisitDate <- 
         as.Date(converted$preenrollment$VisitDate, format = "%m/%d/%Y")
 
-    converted$preenrollment$EnrollDate <- 
-        as.Date(converted$preenrollment$EnrollDate, format = "%m/%d/%Y")
-
-
 
     # Master
     converted$master$BirthDate <- as.Date(converted$master$BirthDate, 
