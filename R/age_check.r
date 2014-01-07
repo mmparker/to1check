@@ -23,7 +23,6 @@
 
 age_check <- function(cleanlist) {
 
-    require(lubridate)
 
     # Get the ages
     ages <- merge(x = cleanlist$preenrollment[ , c("StudyID", "EnrollDate", 

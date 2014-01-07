@@ -23,7 +23,6 @@
 
 calc_fu <- function(cleanlist) {
 
-    require(plyr)
 
     # Subset to those with 1+ positive tests who completed enrollment
     # This is a crude approximation

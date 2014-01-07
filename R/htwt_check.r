@@ -43,7 +43,6 @@ htwt_check <- function(cleanlist) {
     # Ensure that these variables are defined within the function's environment
     HeightInch <- WeightPound <- outlier <- lwr <- upr <- NULL
 
-    require(ggplot2)
 
     # Extract the height and weight data
     htwt <- cleanlist$medicalhistory[ , c("StudyID", 

@@ -21,8 +21,6 @@ compile_results <- function(cleanlist) {
     # Ensure that these variables are defined within the function's environment
     tst <- qft <- tspot <- NULL
 
-    require(plyr)
-    require(reshape2)
 
     tsts <- cleanlist$skintest
     qfts <- cleanlist$qft

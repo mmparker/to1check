@@ -27,9 +27,6 @@ enroll_progress_plot <- function(enroll_dates,
     # Validate arguments
 
 
-    require(ggplot2)
-    require(scales)
-
     # Convert enrollment dates to weekly indicators
     enroll_weeks <- format(enroll_dates, "%Y-%U")
 

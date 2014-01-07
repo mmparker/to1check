@@ -47,9 +47,6 @@ gen_consent_checklist <- function(cleanlist,
     Interpreter <- Parent <- Participant <- Staff <- NULL
 
 
-    require(reshape2)
-    require(xtable)
-
 
     # In order to know which documents are required, we need to know the
     # participant's age and whether the interview was interpreted
