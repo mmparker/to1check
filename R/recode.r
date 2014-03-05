@@ -257,6 +257,14 @@ recode <- function(converted) {
                       recoded$ltbi$IsoniazidFreq %in% "2 x week"] <- 
                           "Twice-weekly INH"
 
+    recoded$ltbi$plan[recoded$ltbi$Isoniazid &
+                      recoded$ltbi$Rifampin &
+                      !recoded$ltbi$Rifapentine &
+                      !recoded$ltbi$Other &
+                      recoded$ltbi$RifampinFreq %in% "Daily" &
+                      recoded$ltbi$IsoniazidFreq %in% "Daily"] <- 
+                          "Daily Rifamate"
+
 
 #    count(recoded$ltbi[c("Isoniazid", "IsoniazidFreq",
 #                         "Rifampin", "RifampinFreq",
