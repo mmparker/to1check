@@ -16,23 +16,3 @@ Depends:
     reshape2,
     scales,
     xtable
-Collate:
-    'age_check.r'
-    'calc_fu.r'
-    'clean_to1.r'
-    'closed_check.r'
-    'compile_results.r'
-    'convert.r'
-    'enroll_progress_plot.r'
-    'gen_consent_checklist.r'
-    'htwt_check.r'
-    'recode.r'
-    'rename.r'
-    'tst_win_check.r'
-    'tx_check.r'
-    'tx_check_denver.r'
-    'help.r'
-    'country_codes.r'
-    'to_close.r'
-    'check_fu.r'
-    'summarize_tx.r'
