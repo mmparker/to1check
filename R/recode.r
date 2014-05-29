@@ -18,8 +18,27 @@
 
 recode <- function(converted) {
 
+
+    # Create these variables so R CMD CHECK doesn't think they're globals
+    AgeAtEnrollment <- Months <- NA
+
     # Keep the originals for comparison
     recoded <- converted
+
+
+    ############################################################################
+    # Convert months of age to fractional years
+    ############################################################################
+
+    # If there is no entry in AgeAtEnrollment but there is one in Months,
+    # divide by 12
+    recoded$preenrollment <- transform(recoded$preenrollment,
+        AgeAtEnrollment = ifelse(is.na(AgeAtEnrollment) & !is.na(Months),
+                                 yes = as.numeric(Months) / 12,
+                                 no = AgeAtEnrollment)
+    )
+
+
 
 
     ############################################################################
